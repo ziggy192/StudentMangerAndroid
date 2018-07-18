@@ -69,7 +69,6 @@ public class EditStudentActivity extends AppCompatActivity {
         }
 
         ((TextView) findViewById(R.id.edit_test_name_parent)).setText(getIntent().getStringExtra("gender"));
-        ((TextView) findViewById(R.id.edit_test_grade)).setText(getIntent().getStringExtra("class"));
         edtParentsNumber.setText(getIntent().getStringExtra(Constant.PARENT_PHONE_NUMBER_KEY));
 
     }

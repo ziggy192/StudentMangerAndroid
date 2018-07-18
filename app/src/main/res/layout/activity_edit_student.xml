@@ -93,34 +93,34 @@
             android:inputType="text" />
     </TableRow>
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <!--<TableRow-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
 
-        <TextView
-            android:id="@+id/txtGrade"
-            android:layout_width="30dp"
-            android:layout_height="32dp"
-            android:layout_weight="1"
-            android:text="Grade"
-            android:visibility="gone" />
+        <!--<TextView-->
+            <!--android:id="@+id/txtGrade"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="32dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Grade"-->
+            <!--android:visibility="gone" />-->
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_class" />
+        <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@drawable/ic_class" />-->
 
-        <EditText
-            android:id="@+id/edit_test_grade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:text="10B"
-            android:inputType="number" />
-    </TableRow>
+        <!--<EditText-->
+            <!--android:id="@+id/edit_test_grade"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:ems="10"-->
+            <!--android:text="10B"-->
+            <!--android:inputType="number" />-->
+    <!--</TableRow>-->
 
     <TableRow
         android:layout_width="match_parent"

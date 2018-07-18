@@ -3,6 +3,7 @@ package com.example.admin.managerstundent.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.admin.managerstundent.R;
@@ -40,10 +41,22 @@ public class ClassDetailActivity extends AppCompatActivity {
         setupUI(this.getIntent().getBundleExtra(PARAMS_KEY));
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+
+        return true;
+
+    }
+
     private void setupUI(Bundle bundle) {
         if (bundle == null) bundle = new Bundle();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setTitle("English");
+        this.getSupportActionBar().setTitle(bundle.getString(SUBJECT_NAME_KEY," "));
         tvSubjectName.setText(bundle.getString(SUBJECT_NAME_KEY," "));
         tvTeacherName.setText(bundle.getString(TEACHER_NAME_KEY," "));
         tvTime.setText(bundle.getString(TIME_KEY," "));

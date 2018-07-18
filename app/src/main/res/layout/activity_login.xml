@@ -1,0 +1,83 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".Activity.LoginActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:id="@+id/login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity=""
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="LOGIN"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edt_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username" />
+
+            <EditText
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                fancy:fb_defaultColor="@color/colorPrimary"
+                fancy:fb_borderColor="#FFFFFF"
+                fancy:fb_fontIconResource="&#xf04b;"
+                fancy:fb_borderWidth="1dp"
+                fancy:fb_radius="30dp"
+                android:onClick="checkLogin"
+                android:text="Login" />
+
+            <mehdi.sakout.fancybuttons.FancyButton
+                android:id="@+id/btn_show_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                fancy:fb_borderColor="@color/colorPrimary"
+                fancy:fb_defaultColor="#FFFFFF"
+                fancy:fb_textColor = "@color/colorPrimary"
+                fancy:fb_fontIconResource="&#xf0fe;"
+                fancy:fb_borderWidth="3dp"
+                fancy:fb_radius="30dp" />
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+</ScrollView>

@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MainActivity">
+    tools:context=".Activity.ListClassActivity">
 
         <TextView
             android:id="@+id/date"
@@ -67,7 +67,7 @@
         android:layout_alignParentEnd="true"
         app:backgroundTint="@color/colorPrimaryDark"
         android:clickable="true"
-        android:onClick="addClass"
+        android:onClick="clickToRequestSlot"
         app:srcCompat="@android:drawable/ic_input_add"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

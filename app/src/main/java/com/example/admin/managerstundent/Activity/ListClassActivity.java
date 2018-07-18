@@ -144,4 +144,8 @@ public class ListClassActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddClassActivity.class);
         startActivity(intent);
     }
+    public void clickToRequestSlot(View view) {
+        Intent intent = new Intent(this, SlotRequestActivity.class);
+        startActivity(intent);
+    }
 }

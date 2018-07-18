@@ -16,9 +16,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:screenOrientation="portrait"
         tools:replace="android:icon">
         <activity
             android:name=".Activity.MainActivity"
@@ -69,8 +69,8 @@
         <activity
             android:name=".Activity.ListClassActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.SlotDetailActivity"
-             ></activity>
+        <activity android:name=".Activity.SlotDetailActivity" />
+        <activity android:name=".Activity.SlotRequestActivity"></activity>
     </application>
 
 </manifest>

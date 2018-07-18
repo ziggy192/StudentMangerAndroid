@@ -140,9 +140,28 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_gender" />
+        <RadioGroup
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbMale"
+                android:text="Male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/rbFemale"
+                android:text="Female"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
 
         <EditText
             android:id="@+id/edit_test_name_parent"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -179,13 +198,41 @@
             android:text="0959 452 325"
             android:inputType="phone" />
     </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtParentsNumber"
+                android:layout_width="30dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:text="ParentsNumber"
+                android:visibility="gone" />
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_parent_guardian_595b40b85ba036ed117ddd1c" />
+
+            <EditText
+                android:id="@+id/edit_text_parents_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:text="0959 452 325"
+                android:inputType="phone" />
+        </TableRow>
 
     <mehdi.sakout.fancybuttons.FancyButton
         android:id="@+id/btnReset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:onClick="clickToCancel"
+        android:onClick="clickToEdit"
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

@@ -4,16 +4,20 @@ public class StudentDTO {
     private Integer id;
     private String url;
     private String name;
-    private Integer age;
-    private String grade;
+    private String birthDay;
+    private String phoneNumber;
+    private String parentsPhone;
+    private boolean isMale;
     private boolean paid;
 
-    public StudentDTO(Integer id, String url, String name, Integer age, String grade, boolean paid) {
+    public StudentDTO(Integer id, String url, String name, String birthDay, String phoneNumber, String parentsPhone, boolean isMale, boolean paid) {
         this.id = id;
         this.url = url;
         this.name = name;
-        this.age = age;
-        this.grade = grade;
+        this.birthDay = birthDay;
+        this.phoneNumber = phoneNumber;
+        this.parentsPhone = parentsPhone;
+        this.isMale = isMale;
         this.paid = paid;
     }
 
@@ -41,21 +45,14 @@ public class StudentDTO {
         this.url = url;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getBirthDay() {
+        return birthDay;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setBirthDay(String age) {
+        this.birthDay = birthDay;
     }
 
-    public String getGrade() {
-        return grade;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
 
     public boolean isPaid() {
         return paid;
@@ -63,5 +60,29 @@ public class StudentDTO {
 
     public void setPaid(boolean paid) {
         this.paid = paid;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public boolean isMale() {
+        return isMale;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setParentsPhone(String parentsPhone) {
+        this.parentsPhone = parentsPhone;
+    }
+
+    public void setMale(boolean male) {
+        isMale = male;
+    }
+
+    public String getParentsPhone() {
+        return parentsPhone;
     }
 }

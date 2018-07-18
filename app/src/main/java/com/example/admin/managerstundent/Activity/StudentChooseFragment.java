@@ -46,8 +46,16 @@ public class StudentChooseFragment extends DialogFragment {
             if(i%5==1) {
                 classname +=", " +  subject[(i + 3) % 4];
             }
-            dtos.add(new StudentDTO(i, "https://picsum.photos/60/60/?image=" + (i * 50 + 2), lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5],
-                    new Random().nextInt(3) + 15, classname, (i % 4 == 0) ? false : true));
+            dtos.add(new StudentDTO(
+                    i
+                    ,"https://picsum.photos/60/60/?image=" + (i * 50 + 2)
+                    ,lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5]
+                    ,"12/02/1997"
+                    ,"0905456483"
+                    ,"0905167468"
+                    ,i % 2 == 0 ? true : false
+                    ,(i % 4 == 0) ? false : true)
+            );
         }
         adapter = new StudentChooserAdapter(dtos, getContext());
         ListView list = rootView.findViewById(R.id.listChoose);

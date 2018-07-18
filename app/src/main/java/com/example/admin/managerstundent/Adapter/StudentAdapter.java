@@ -57,8 +57,6 @@ public class StudentAdapter extends BaseAdapter implements Filterable {
         StudentDTO dto = dtos.get(position);
         TextView id = convertView.findViewById(R.id.txtIDStudent);
         TextView name = convertView.findViewById(R.id.txtName);
-        TextView age = convertView.findViewById(R.id.txtAge);
-        TextView grade = convertView.findViewById(R.id.txtGrade);
         ImageView img = convertView.findViewById(R.id.img);
         IconSwitch iconSwich = convertView.findViewById(R.id.icon_switch);
         if(dto.isPaid()) {
@@ -72,8 +70,6 @@ public class StudentAdapter extends BaseAdapter implements Filterable {
                 .into(img);
         id.setText(dto.getId().toString());
         name.setText(dto.getName());
-        age.setText("Age: " + dto.getAge().toString());
-        grade.setText("Class: " + dto.getGrade());
         return convertView;
     }
 

@@ -41,6 +41,8 @@ import java.util.Random;
 
 import mehdi.sakout.fancybuttons.FancyButton;
 
+import  com.example.admin.managerstundent.Constant.Constant;
+
 public class ListStudentActivity extends AppCompatActivity implements Filter.FilterListener, StudentChooseFragment.OnCompleteListener {
     SwipeMenuListView listView;
     StudentAdapter adapter;
@@ -126,15 +128,31 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
 //                if(i%5==1) {
 //                    classstudy +=", " +  subject[(i + 3) % 4];
 //                }
-                dtos.add(new StudentDTO(i, "https://picsum.photos/60/60/?image=" + (i * 50 + 2), lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5],
-                        new Random().nextInt(3) + 15, classstudy, (i % 4 == 0) ? false : true));
+                dtos.add(new StudentDTO(
+                        i
+                        ,"https://picsum.photos/60/60/?image=" + (i * 50 + 2)
+                        ,lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5]
+                        ,"12/02/1997"
+                                ,"0905456483"
+                                ,"0905167468"
+                        ,i % 2 == 0 ? true : false
+                                ,(i % 4 == 0) ? false : true)
+                        );
             }
         } else {
             findViewById(R.id.btnShow).setVisibility(View.VISIBLE);
             bar.setVisibility(View.GONE);
             for (int i = 0; i < 5; i++) {
-                dtos.add(new StudentDTO(i, "https://picsum.photos/60/60/?image=" + (i * 50 + 2), lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5],
-                        new Random().nextInt(3) + 15, className, (i % 4 == 0) ? false : true));
+                dtos.add(new StudentDTO(
+                        i
+                        ,"https://picsum.photos/60/60/?image=" + (i * 50 + 2)
+                        ,lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5]
+                        ,"12/02/1997"
+                        ,"0905456483"
+                        ,"0905167468"
+                        ,i % 2 == 0 ? true : false
+                        ,(i % 4 == 0) ? false : true)
+                );
             }
         }
 
@@ -235,7 +253,9 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
                 Intent intent = new Intent(ListStudentActivity.this, StudentDetailActivity.class);
                 intent.putExtra("name", dto.getName());
                 intent.putExtra("paid", dto.isPaid());
-                intent.putExtra("class", dto.getGrade());
+                intent.putExtra(Constant.GENDER_KEY, dto.isMale());
+                intent.putExtra(Constant.PHONE_NUMBER_KEY, dto.getPhoneNumber());
+                intent.putExtra(Constant.PARENT_PHONE_NUMBER_KEY, dto.getParentsPhone());
                 startActivity(intent);
             }
         });
@@ -294,8 +314,16 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
             if(i%5==1) {
                 classstudy +=", " +  subject[(i + 3) % 4];
             }
-            dtos.add(new StudentDTO(i, "https://picsum.photos/60/60/?image=" + (i * 50 + 2), lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5],
-                    new Random().nextInt(3) + 15, classstudy, (i % 4 == 0) ? false : true));
+            dtos.add(new StudentDTO(
+                    i
+                    ,"https://picsum.photos/60/60/?image=" + (i * 50 + 2)
+                    ,lastName[i % 3] + " " + middleName[i % 4] + " " + firstName[i % 5]
+                    ,"19/02/1997"
+                    ,"0905456483"
+                    ,"0905167468"
+                    ,true
+                    ,(i % 4 == 0) ? false : true)
+            );
         }
         adapter.notifyDataSetChanged();
     }

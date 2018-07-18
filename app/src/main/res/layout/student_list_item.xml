@@ -32,23 +32,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginLeft="15dp" />
-        <TextView
-            android:id="@+id/txtAge"
-            android:text="age"
-            android:layout_below="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/sad"
-            android:layout_marginLeft="15dp" />
-        <TextView
-            android:id="@+id/txtGrade"
-            android:text="grade"
-            android:layout_below="@+id/txtName"
-            android:layout_toRightOf="@+id/txtAge"
-            android:layout_marginLeft="15dp"
-            android:textColor="@color/sad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
     </RelativeLayout>
 
     <com.polyak.iconswitch.IconSwitch

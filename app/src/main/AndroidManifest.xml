@@ -69,7 +69,7 @@
         <activity
             android:name=".Activity.ListClassActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.ClassDetailActivity"
+        <activity android:name=".Activity.SlotDetailActivity"
              ></activity>
     </application>
 

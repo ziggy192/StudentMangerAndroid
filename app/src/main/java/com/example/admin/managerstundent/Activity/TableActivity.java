@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.BottomNavigationViewHelper;
@@ -22,7 +21,6 @@ import com.sdsmdg.tastytoast.TastyToast;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,7 +98,7 @@ public class TableActivity extends AppCompatActivity {
 //                Toast.makeText(TableActivity.this, time.getTitle() + ", " + sdf.format(new DateTime(time.getStartMills()).toDate()) +
 //                        " ~ " + sdf.format(new DateTime(time.getStopMills()).toDate()), Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(TableActivity.this, ClassDetailActivity.class);
+                Intent intent = new Intent(TableActivity.this, SlotDetailActivity.class);
 
                 String teacherName = "Nghialq";
                 String subjectName = "English";
@@ -108,12 +106,12 @@ public class TableActivity extends AppCompatActivity {
                 String dayOfWeek = "Monday";
                 String roomName = "R01";
                 Bundle bundle = new Bundle();
-                bundle.putString(ClassDetailActivity.TEACHER_NAME_KEY, teacherName);
-                bundle.putString(ClassDetailActivity.SUBJECT_NAME_KEY, subjectName);
-                bundle.putString(ClassDetailActivity.TIME_KEY, timeStr);
-                bundle.putString(ClassDetailActivity.DAYOFWEEK_KEY, dayOfWeek);
-                bundle.putString(ClassDetailActivity.ROOM_NAME_KEY, roomName);
-                intent.putExtra(ClassDetailActivity.PARAMS_KEY, bundle);
+                bundle.putString(SlotDetailActivity.TEACHER_NAME_KEY, teacherName);
+                bundle.putString(SlotDetailActivity.SUBJECT_NAME_KEY, subjectName);
+                bundle.putString(SlotDetailActivity.TIME_KEY, timeStr);
+                bundle.putString(SlotDetailActivity.DAYOFWEEK_KEY, dayOfWeek);
+                bundle.putString(SlotDetailActivity.ROOM_NAME_KEY, roomName);
+                intent.putExtra(SlotDetailActivity.PARAMS_KEY, bundle);
                 TableActivity.this.startActivity(intent);
 
             }

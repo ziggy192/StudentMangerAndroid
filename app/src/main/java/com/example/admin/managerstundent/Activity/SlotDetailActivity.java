@@ -11,7 +11,7 @@ import com.example.admin.managerstundent.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ClassDetailActivity extends AppCompatActivity {
+public class SlotDetailActivity extends AppCompatActivity {
     public static final String SUBJECT_NAME_KEY = "subject name";
     public static final String TEACHER_NAME_KEY = "teachear name";
     public static final String TIME_KEY = "time";
@@ -35,7 +35,7 @@ public class ClassDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_class_detail);
+        setContentView(R.layout.activity_slot_detail);
         ButterKnife.bind(this);
         setSupportActionBar(myToolbar);
         setupUI(this.getIntent().getBundleExtra(PARAMS_KEY));

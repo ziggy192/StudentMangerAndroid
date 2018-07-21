@@ -70,7 +70,8 @@
             android:name=".Activity.ListClassActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.SlotDetailActivity" />
-        <activity android:name=".Activity.SlotRequestActivity"></activity>
+        <activity android:name=".Activity.SlotRequestActivity" />
+        <activity android:name=".Activity.SlotRequestedDetailActivity"></activity>
     </application>
 
 </manifest>

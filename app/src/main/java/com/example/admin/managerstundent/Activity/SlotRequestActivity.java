@@ -42,7 +42,7 @@ public class SlotRequestActivity extends AppCompatActivity implements RequestSlo
 
     @BindView(R.id.my_toolbar)
     Toolbar myToolbar;
-//    @BindView(R.id.spinnerSubject)
+    //    @BindView(R.id.spinnerSubject)
 //    Spinner spinnerSubject;
 //    @BindView(R.id.lvSlot)
 //    ListView lvSlot;

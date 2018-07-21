@@ -20,5 +20,7 @@ public final class Constant {
     public static final String FEE_STATUS = "paid";
 
 
+    public static final String SLOT_REQUESTED_MODEL_KEY = "slot requested model";
+
 
 }

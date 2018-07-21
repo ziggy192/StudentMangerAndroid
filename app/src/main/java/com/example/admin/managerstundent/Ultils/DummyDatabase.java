@@ -1,6 +1,7 @@
 package com.example.admin.managerstundent.Ultils;
 
 import com.example.admin.managerstundent.Entity.ClassDetail;
+import com.example.admin.managerstundent.Entity.SlotRequestedModel;
 import com.example.admin.managerstundent.Entity.Subject;
 
 import java.util.Arrays;
@@ -22,8 +23,20 @@ public class DummyDatabase {
 
     };
 
+    private static final SlotRequestedModel[] slotRequestedModel = {
+
+            new SlotRequestedModel(classDetails[0], SlotRequestedModel.WAITING_STATE)
+            , new SlotRequestedModel(classDetails[1], SlotRequestedModel.WAITING_STATE)
+            , new SlotRequestedModel(classDetails[2], SlotRequestedModel.ACCEPTED_STATE)
+            , new SlotRequestedModel(classDetails[3], SlotRequestedModel.DENIED_STATE)
+
+    };
     public static List<ClassDetail> getClassList(Subject subject) {
         return Arrays.asList(classDetails);
+    }
+
+    public static List<SlotRequestedModel> getSlotRequestedModels() {
+        return Arrays.asList(slotRequestedModel);
     }
 
 }

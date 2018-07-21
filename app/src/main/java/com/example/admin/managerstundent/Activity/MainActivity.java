@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.example.admin.managerstundent.Adapter.DBAdapter;
 import com.example.admin.managerstundent.Adapter.ListClassAdapter;
 import com.example.admin.managerstundent.DTO.ClassDTO;
+import com.example.admin.managerstundent.Fragments.ListSlotRequestedFragment;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.BottomNavigationViewHelper;
 import com.skyfishjy.library.RippleBackground;
@@ -63,7 +64,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        settupUI();
+        navigateFragement(ListSlotRequestedFragment.newInstance(),ListSlotRequestedFragment.class.toString());
+    }
 
+    public void settupUI() {
         BottomNavigationView bar = findViewById(R.id.bottom_navigation);
         bar.setSelectedItemId(R.id.nav_dashboard);
 //        List<ClassDTO> classes = new ArrayList<>();
@@ -123,8 +128,6 @@ public class MainActivity extends AppCompatActivity {
 //                .deleteRealmIfMigrationNeeded()
 //                .build();
 //        Realm.setDefaultConfiguration(realmConfiguration);
-
-
     }
 
     public void navigateFragement(Fragment fragment, String tag) {

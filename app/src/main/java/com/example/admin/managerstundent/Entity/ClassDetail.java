@@ -1,10 +1,11 @@
 package com.example.admin.managerstundent.Entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ClassDetail {
+public class ClassDetail implements Serializable {
 
 
     private int classId;

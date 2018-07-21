@@ -2,6 +2,7 @@ package com.example.admin.managerstundent.Ultils;
 
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.SlotRequestedModel;
+import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.Entity.Subject;
 
 import java.util.Arrays;
@@ -31,12 +32,30 @@ public class DummyDatabase {
             , new SlotRequestedModel(classDetails[3], SlotRequestedModel.DENIED_STATE)
 
     };
+
+    private static Student studentProfile = new Student(
+            "Nguyen Van A"
+            , "0905456483"
+            , "0905167468"
+            , "19/02/1997"
+            , true
+            , false
+    );
+
     public static List<ClassDetail> getClassList(Subject subject) {
         return Arrays.asList(classDetails);
     }
 
     public static List<SlotRequestedModel> getSlotRequestedModels() {
         return Arrays.asList(slotRequestedModel);
+    }
+
+    public static Student getStudentProfile() {
+        return studentProfile;
+    }
+
+    public static void setStudentProfile(Student studentProfile) {
+        DummyDatabase.studentProfile = studentProfile;
     }
 
 }

@@ -40,7 +40,6 @@ public class StudentDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_student_detail);
         ButterKnife.bind(this);
         ((TextView) findViewById(R.id.txtUsername)).setText(getIntent().getStringExtra("name"));
-        ((TextView) findViewById(R.id.txtClass)).setText(getIntent().getStringExtra("class"));
         ImageView img = findViewById(R.id.imageViewUser);
         ImageView imgPaid = findViewById(R.id.imgPaid);
         ImageView imgNotPaid = findViewById(R.id.imgNotPaid);
@@ -78,7 +77,6 @@ public class StudentDetailActivity extends AppCompatActivity {
         intent.putExtra("gender",
                 ((TextView) findViewById(R.id.txtGender)).getText().equals("Male") ? true : false);
 
-        intent.putExtra("class", ((TextView) findViewById(R.id.txtClass)).getText());
         intent.putExtra(PARENT_PHONE_NUMBER_KEY, tvParentsNumber.getText());
         intent.putExtra(PHONE_NUMBER_KEY, tvPhone.getText());
 

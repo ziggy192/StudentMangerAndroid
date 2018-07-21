@@ -35,7 +35,7 @@ public class ListClassActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_class);
         BottomNavigationView bar = findViewById(R.id.bottom_navigation);
-        bar.setSelectedItemId(R.id.nav_todolist);
+//        bar.setSelectedItemId(R.id.nav_todolist);
         DBAdapter db = new DBAdapter(this);
         db.open();
         final List<ClassDTO> dtos = db.findAllClass();
@@ -43,34 +43,6 @@ public class ListClassActivity extends AppCompatActivity {
         SwipeMenuListView listView = findViewById(R.id.list);
         alertBuilder = new AlertDialog.Builder(this);
         listView.setAdapter(adapter);
-        bar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
-                    case R.id.nav_dashboard:
-                        Intent intent = new Intent(ListClassActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case R.id.nav_timetable:
-                        Intent intent2 = new Intent(ListClassActivity.this, TableActivity.class);
-                        startActivity(intent2);
-                        finish();
-                        break;
-                    case R.id.nav_studentmanagent:
-                        Intent intent3 = new Intent(ListClassActivity.this, ListStudentActivity.class);
-                        startActivity(intent3);
-                        finish();
-                        break;
-                    case R.id.nav_todolist:
-                        Intent intent4 = new Intent(ListClassActivity.this, ListClassActivity.class);
-                        startActivity(intent4);
-                        finish();
-                        break;
-                }
-                return false;
-            }
-        });
         BottomNavigationViewHelper.disableShiftMode(bar);
         bar.getMenu().getItem(3).setChecked(true);
         db.close();

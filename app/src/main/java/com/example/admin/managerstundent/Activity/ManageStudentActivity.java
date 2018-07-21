@@ -57,35 +57,35 @@ public class ManageStudentActivity extends AppCompatActivity {
         tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(this, DATA_HEADER));
         tableView.setDataAdapter(classAdapter);
         BottomNavigationView bar = findViewById(R.id.bottom_navigation);
-        bar.setSelectedItemId(R.id.nav_todolist);
-        bar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
-                    case R.id.nav_dashboard:
-                        Intent intent = new Intent(ManageStudentActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case R.id.nav_timetable:
-                        Intent intent2 = new Intent(ManageStudentActivity.this, TableActivity.class);
-                        startActivity(intent2);
-                        finish();
-                        break;
-                    case R.id.nav_studentmanagent:
-                        Intent intent3 = new Intent(ManageStudentActivity.this, ListStudentActivity.class);
-                        startActivity(intent3);
-                        finish();
-                        break;
-                    case R.id.nav_todolist:
-                        Intent intent4 = new Intent(ManageStudentActivity.this, ListClassActivity.class);
-                        startActivity(intent4);
-                        finish();
-                        break;
-                }
-                return false;
-            }
-        });
+//        bar.setSelectedItemId(R.id.nav_todolist);
+//        bar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                switch(item.getItemId()) {
+//                    case R.id.nav_dashboard:
+//                        Intent intent = new Intent(ManageStudentActivity.this, MainActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                        break;
+//                    case R.id.nav_timetable:
+//                        Intent intent2 = new Intent(ManageStudentActivity.this, TableActivity.class);
+//                        startActivity(intent2);
+//                        finish();
+//                        break;
+//                    case R.id.nav_studentmanagent:
+//                        Intent intent3 = new Intent(ManageStudentActivity.this, ListStudentActivity.class);
+//                        startActivity(intent3);
+//                        finish();
+//                        break;
+//                    case R.id.nav_todolist:
+//                        Intent intent4 = new Intent(ManageStudentActivity.this, ListClassActivity.class);
+//                        startActivity(intent4);
+//                        finish();
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
         BottomNavigationViewHelper.disableShiftMode(bar);
         bar.getMenu().getItem(3).setChecked(true);
         tableView.addDataClickListener(new ClassClickListener());

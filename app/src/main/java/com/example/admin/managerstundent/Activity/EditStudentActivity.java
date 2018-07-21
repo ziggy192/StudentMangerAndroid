@@ -17,9 +17,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.admin.managerstundent.Constant.Constant;
+import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.CircleTransform;
 import com.example.admin.managerstundent.Ultils.DocumentHelper;
+import com.example.admin.managerstundent.Ultils.DummyDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
@@ -42,40 +44,66 @@ public class EditStudentActivity extends AppCompatActivity {
     private ImageView pickImage;
     private ExifInterface exif;
     private File chosenFile;
+
+
+
+    @BindView(R.id.edit_test_name)
+    EditText edtName;
+    @BindView(R.id.edit_test_phone)
+    EditText edtPhone;
+    @BindView(R.id.edit_test_birthday)
+    EditText edtDayOfBirth;
     @BindView(R.id.edit_text_parents_number)
     EditText edtParentsNumber;
     @BindView(R.id.rbMale)
     RadioButton rbMale;
     @BindView(R.id.rbFemale)
     RadioButton rbFemale;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_student);
         ButterKnife.bind(this);
+
+        Student student = DummyDatabase.getStudentProfile();
+
         ImageView img = findViewById(R.id.img);
         Random r = new Random();
         String url = "https://picsum.photos/250/250/?image=" + r.nextInt(200);
         Picasso.with(getApplicationContext()).load(url).transform(new CircleTransform()).into(img);
-        ((TextView) findViewById(R.id.edit_test_name)).setText(getIntent().getStringExtra("name"));
-        ((TextView) findViewById(R.id.edit_test_phone)).setText(getIntent().getStringExtra(Constant.PHONE_NUMBER_KEY));
-        ((TextView) findViewById(R.id.edit_test_birthday)).setText(getIntent().getStringExtra("birthday"));
+        edtName.setText(student.getName());
+        edtPhone.setText(student.getPhoneNumber());
+        edtDayOfBirth.setText(student.getDateOfBirth());
 
-        boolean isMale = getIntent().getBooleanExtra("gender", true);
+        boolean isMale = student.isMale();
         if (isMale) {
             rbMale.setChecked(true);
         } else {
             rbFemale.setChecked(true);
         }
 
-        ((TextView) findViewById(R.id.edit_test_name_parent)).setText(getIntent().getStringExtra("gender"));
-        edtParentsNumber.setText(getIntent().getStringExtra(Constant.PARENT_PHONE_NUMBER_KEY));
+        edtParentsNumber.setText(student.getParentsPhoneNumber());
 
     }
 
     public void clickToEdit(View view) {
 
+
         //todo save info here
+        Student oldStudent = DummyDatabase.getStudentProfile();
+        DummyDatabase.setStudentProfile(
+                new Student(
+                        edtName.getText().toString()
+                        , edtPhone.getText().toString()
+                        , edtParentsNumber.getText().toString()
+                        , edtDayOfBirth.getText().toString()
+                        , rbMale.isChecked()
+                        , oldStudent.isPaid()
+                )
+        );
+
         onBackPressed();
     }
 

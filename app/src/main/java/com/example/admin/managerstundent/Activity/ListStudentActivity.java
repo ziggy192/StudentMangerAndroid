@@ -24,7 +24,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.arlib.floatingsearchview.FloatingSearchView;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -46,7 +45,6 @@ import  com.example.admin.managerstundent.Constant.Constant;
 public class ListStudentActivity extends AppCompatActivity implements Filter.FilterListener, StudentChooseFragment.OnCompleteListener {
     SwipeMenuListView listView;
     StudentAdapter adapter;
-    SearchView searchView;
     List<StudentDTO> dtos;
     private AlertDialog.Builder alertBuilder;
     String lastName[] = {"Tran", "Le", "Nguyen"};
@@ -62,28 +60,8 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_student);
         listView = findViewById(R.id.listView);
-        searchView = findViewById(R.id.seek_bar);
         TextView txt = findViewById(R.id.subject);
         fb= findViewById(R.id.btnShow);
-        FloatingSearchView fsearchView = findViewById(R.id.floating_search_view);
-        fsearchView.setDimBackground(false);
-        fsearchView.clearSearchFocus();
-        fsearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.name:
-                        if(className == null) {
-                            Intent intent = new Intent(ListStudentActivity.this, AddStudentActivity.class);
-                            startActivity(intent);
-                        } else {
-                            StudentChooseFragment fragment = new StudentChooseFragment();
-                            fragment.show(getSupportFragmentManager(), "Choose student!");
-                        }
-                        break;
-                }
-            }
-        });
         className = getIntent().getStringExtra("subject");
 
         if (className != null) {
@@ -91,12 +69,6 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
             ((TextView) findViewById(R.id.time)).setText("Time: " + getIntent().getStringExtra("time"));
             txt.setText(txt.getText()+ className);
         }
-        fsearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-            @Override
-            public void onSearchTextChanged(String oldQuery, String newQuery) {
-                ((Filterable) adapter).getFilter().filter(newQuery, ListStudentActivity.this);
-            }
-        });
 //        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 //            @Override
 //            public boolean onQueryTextSubmit(String query) {
@@ -109,20 +81,13 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
 //                return false;
 //            }
 //        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                return true;
-            }
-        });
-        searchView.clearFocus();
         alertBuilder = new AlertDialog.Builder(this);
         findViewById(R.id.txtHold).setVisibility(View.GONE);
         BottomNavigationView bar = findViewById(R.id.bottom_navigation);
         dtos = new ArrayList<>();
         if (className == null) {
             findViewById(R.id.btnShow).setVisibility(View.GONE);
-            bar.setSelectedItemId(R.id.nav_studentmanagent);
+//            bar.setSelectedItemId(R.id.nav_studentmanagent);
             for (int i = 0; i < 15; i++) {
                 String classstudy = subject[(i + 2) % 4];
 //                if(i%5==1) {
@@ -161,34 +126,6 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
         adapter.notifyDataSetChanged();
 
 
-        bar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_dashboard:
-                        Intent intent = new Intent(ListStudentActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case R.id.nav_timetable:
-                        Intent intent2 = new Intent(ListStudentActivity.this, TableActivity.class);
-                        startActivity(intent2);
-                        finish();
-                        break;
-                    case R.id.nav_studentmanagent:
-                        Intent intent3 = new Intent(ListStudentActivity.this, ListStudentActivity.class);
-                        startActivity(intent3);
-                        finish();
-                        break;
-                    case R.id.nav_todolist:
-                        Intent intent4 = new Intent(ListStudentActivity.this, ListClassActivity.class);
-                        startActivity(intent4);
-                        finish();
-                        break;
-                }
-                return false;
-            }
-        });
         BottomNavigationViewHelper.disableShiftMode(bar);
         bar.getMenu().getItem(2).setChecked(true);
         listView.setAdapter(adapter);
@@ -282,17 +219,6 @@ public class ListStudentActivity extends AppCompatActivity implements Filter.Fil
     @Override
     public void onFilterComplete(int count) {
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-            ((Filterable) adapter).getFilter().filter(" ", ListStudentActivity.this);
-            searchView.clearFocus();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     public void changeStatus(View view) {

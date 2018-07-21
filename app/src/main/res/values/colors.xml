@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#0d133b</color>
     <color name="colorAccent">#606c9e</color>
 
+    <color name="colorTextPrimary">#DD000000</color>
+    <color name="colorTextSecondary">#88000000</color>
+
     <color name="black_overlay">#66000000</color>
 
     <color name="color_table_1">#007fe4</color>

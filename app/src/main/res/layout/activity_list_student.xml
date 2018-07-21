@@ -7,23 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".Activity.ListStudentActivity">
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/seek_bar"
-        app:queryHint="Type to search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.arlib.floatingsearchview.FloatingSearchView
-        android:id="@+id/floating_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"
-        app:floatingSearch_leftActionMode="showSearch"
-        app:floatingSearch_menu="@menu/menu_search"
-        app:floatingSearch_searchHint="Search Student"
-        app:floatingSearch_showSearchKey="false"
-        app:floatingSearch_showVoiceInput="true"
-        app:floatingSearch_suggestionsListAnimDuration="250" />
+
+
 
     <RelativeLayout
         android:id="@+id/txtAll"

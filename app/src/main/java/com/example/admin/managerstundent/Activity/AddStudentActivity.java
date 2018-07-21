@@ -11,18 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.admin.managerstundent.Adapter.DBAdapter;
 import com.example.admin.managerstundent.DTO.ClassDTO;
-import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.DocumentHelper;
 
@@ -134,42 +131,42 @@ public class AddStudentActivity extends AppCompatActivity {
      * Excute event click on button Submit in activity add student
      * @param view
      */
-    public void ClickOnSubmit(View view) {
-        Intent intent = new Intent(this, ListStudentActivity.class);
-        startActivity(intent);
-        finish();
-        //Begin transaction
-        realm.beginTransaction();
-
-        //Get max index with primary key
-        Number currentId = realm.where(Student.class).max("studentID");
-        int nextId = 0;
-        if(currentId == null){
-            nextId = 1;
-        }else{
-            nextId = currentId.intValue() + 1;
-        }
-
-        Student student = realm.createObject(Student.class, nextId);
-//        student.setStudentID(nextId);
-        student.setName(name.getText().toString());
-        student.setName_parent(nameParent.getText().toString());
-        student.setPhone(phone.getText().toString());
-        student.setGrade(Integer.parseInt(grade.getText().toString()));
-        //Cover String to Date
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            Date date = formatter.parse(birthday.getText().toString());
-            student.setBirthday(date);
-        } catch (ParseException e) {
-            student.setBirthday(null);
-        }
-        Log.d(TAG, String.format("ClickOnSubmit: %s",student.toString() ));
-
-        //Commit transaction
-        realm.commitTransaction();
-        finish();
-    }
+//    public void ClickOnSubmit(View view) {
+//        Intent intent = new Intent(this, ListStudentActivity.class);
+//        startActivity(intent);
+//        finish();
+//        //Begin transaction
+//        realm.beginTransaction();
+//
+//        //Get max index with primary key
+//        Number currentId = realm.where(Student.class).max("studentID");
+//        int nextId = 0;
+//        if(currentId == null){
+//            nextId = 1;
+//        }else{
+//            nextId = currentId.intValue() + 1;
+//        }
+//
+//        Student student = realm.createObject(Student.class, nextId);
+////        student.setStudentID(nextId);
+//        student.setName(name.getText().toString());
+//        student.setName_parent(nameParent.getText().toString());
+//        student.setPhone(phone.getText().toString());
+//        student.setGrade(Integer.parseInt(grade.getText().toString()));
+//        //Cover String to Date
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        try {
+//            Date date = formatter.parse(birthday.getText().toString());
+//            student.setBirthday(date);
+//        } catch (ParseException e) {
+//            student.setBirthday(null);
+//        }
+//        Log.d(TAG, String.format("ClickOnSubmit: %s",student.toString() ));
+//
+//        //Commit transaction
+//        realm.commitTransaction();
+//        finish();
+//    }
 
     public void clickToCancel(View view) {
         Intent intent = new Intent(this, ListStudentActivity.class);

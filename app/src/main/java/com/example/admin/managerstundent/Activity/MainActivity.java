@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -48,11 +49,10 @@ import io.realm.RealmConfiguration;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private ActionBarDrawerToggle mToggle;
 
-    private ListView listView;
-    private TextView date;
-    private String subject[] = {"Math 9", "Math 10", "Chemistry 10", "Physics 11"};
+//    private ListView listView;
+//    private TextView date;
+//    private String subject[] = {"Math 9", "Math 10", "Chemistry 10", "Physics 11"};
 
     /**
      * Override On Create
@@ -66,32 +66,24 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bar = findViewById(R.id.bottom_navigation);
         bar.setSelectedItemId(R.id.nav_dashboard);
-        listView = findViewById(R.id.list);
-        date = findViewById(R.id.date);
-        List<ClassDTO> classes = new ArrayList<>();
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("hh:mm");
-        DateTime dt = dtf.parseDateTime("5:00");
-        DBAdapter db = new DBAdapter(this);
-        db.open();
-        classes = db.findAllClass();
-        if(classes.isEmpty()) {
-            for (int i = 0; i < 4; i++) {
-                DateTime dt2 = dt.plusSeconds(4800);
-                //classes.add(new ClassDTO(subject[i % 4], subject[i % 4], dtf.print(dt) + " - " + dtf.print(dt2) + " AM", "   Mon-Wed-Fri"));
-                db.addClass(new ClassDTO(subject[i % 4], subject[i % 4], dtf.print(dt) + " - " + dtf.print(dt2) + " AM", "Mon-Wed-Fri"));
-                dt = dt2.plusSeconds(900);
-            }
-        }
-        classes = db.findAllClass();
-        db.close();
-        ListClassAdapter adapter = new ListClassAdapter(classes, this);
-        listView.setAdapter(adapter);
-//        Picasso.with(MainActivity.this)
-//                .load("http://img.youtube.com/vi/32sYGCOYJUM/0.jpg")
-//                .placeholder(R.drawable.ic_launcher)
-//                .into((ImageView) findViewById(R.id.img));
-        //RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
-        // rippleBackground.startRippleAnimation();
+//        List<ClassDTO> classes = new ArrayList<>();
+//        DateTimeFormatter dtf = DateTimeFormat.forPattern("hh:mm");
+//        DateTime dt = dtf.parseDateTime("5:00");
+//        DBAdapter db = new DBAdapter(this);
+//        db.open();
+//        classes = db.findAllClass();
+//        if(classes.isEmpty()) {
+//            for (int i = 0; i < 4; i++) {
+//                DateTime dt2 = dt.plusSeconds(4800);
+//                //classes.add(new ClassDTO(subject[i % 4], subject[i % 4], dtf.print(dt) + " - " + dtf.print(dt2) + " AM", "   Mon-Wed-Fri"));
+//                db.addClass(new ClassDTO(subject[i % 4], subject[i % 4], dtf.print(dt) + " - " + dtf.print(dt2) + " AM", "Mon-Wed-Fri"));
+//                dt = dt2.plusSeconds(900);
+//            }
+//        }
+//        classes = db.findAllClass();
+//        db.close();
+//        ListClassAdapter adapter = new ListClassAdapter(classes, this);
+//        listView.setAdapter(adapter);
         bar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -123,35 +115,31 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationViewHelper.disableShiftMode(bar);
         bar.getMenu().getItem(0).setChecked(true);
         //Configuration Realm Default
-        Realm.init(getApplicationContext());
-
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                .name(Realm.DEFAULT_REALM_NAME)
-                .schemaVersion(0)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+//        Realm.init(getApplicationContext());
+//
+//        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+//                .name(Realm.DEFAULT_REALM_NAME)
+//                .schemaVersion(0)
+//                .deleteRealmIfMigrationNeeded()
+//                .build();
+//        Realm.setDefaultConfiguration(realmConfiguration);
 
 
     }
 
-    /**
-     * Excute when user click on button "Menu"
-     *
-     * @param item
-     * @return boolean
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (mToggle.onOptionsItemSelected(item)) {
-            return true;
+    public void navigateFragement(Fragment fragment, String tag) {
+        Fragment mFragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (mFragment == null) {
+            mFragment = fragment;
         }
-        return super.onOptionsItemSelected(item);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.view_stub, mFragment, tag)
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .commit();
+
     }
 
-    /**
-     * Excute when user click on button "Back" on the Phone
-     */
+
 
 
     /**
@@ -202,18 +190,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeDate(View view) {
-        final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd MMMM, yyyy");
-        Calendar cal = Calendar.getInstance();
-        DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month++;
-                //month in DatePicker count from 0, but month in dt count from 1
-                DateTime dt = new DateTime(year, month, dayOfMonth, 0, 0, 0);
-                date.setText(dtf.print(dt));
-            }
-        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
-        dpd.show();
+//        final DateTimeFormatter dtf = DateTimeFormat.forPattern("dd MMMM, yyyy");
+//        Calendar cal = Calendar.getInstance();
+//        DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                month++;
+//                //month in DatePicker count from 0, but month in dt count from 1
+//                DateTime dt = new DateTime(year, month, dayOfMonth, 0, 0, 0);
+//                date.setText(dtf.print(dt));
+//            }
+//        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
+//        dpd.show();
     }
 
     public void addClass(View view) {

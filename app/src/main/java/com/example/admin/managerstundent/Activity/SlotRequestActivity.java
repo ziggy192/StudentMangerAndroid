@@ -3,9 +3,11 @@ package com.example.admin.managerstundent.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.managerstundent.Dialogs.RequestSlotEditDialogFragment;
+import com.example.admin.managerstundent.Entity.ClassDetail;
+import com.example.admin.managerstundent.Entity.Subject;
+import com.example.admin.managerstundent.Fragments.SlotRequestSubjectChooserFragment;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.Common;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
@@ -33,13 +38,18 @@ import butterknife.ButterKnife;
 
 public class SlotRequestActivity extends AppCompatActivity implements RequestSlotEditDialogFragment.OnRequestSlotInteractionListener {
 
+    private static final String TAG = SlotRequestActivity.class.toString();
+
     @BindView(R.id.my_toolbar)
     Toolbar myToolbar;
-    @BindView(R.id.spinnerSubject)
-    Spinner spinnerSubject;
-    @BindView(R.id.lvSlot)
-    ListView lvSlot;
+//    @BindView(R.id.spinnerSubject)
+//    Spinner spinnerSubject;
+//    @BindView(R.id.lvSlot)
+//    ListView lvSlot;
     SlotListAdapter slotListAdapter;
+
+    private Subject subjectChoosed;
+    private ClassDetail classDetailChoosed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +79,20 @@ public class SlotRequestActivity extends AppCompatActivity implements RequestSlo
 
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, DummyDatabase.subjects);
-        //set the spinners adapter to the previously created one.
-        spinnerSubject.setAdapter(adapter);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this
+//                , android.R.layout.simple_spinner_dropdown_item
+//                , DummyDatabase.subjects);
+//        //set the spinners adapter to the previously created one.
+//        spinnerSubject.setAdapter(adapter);
+//
+
+//        List<SlotRequestModel> slotRequestModels = new ArrayList<>();
+//        slotRequestModels.add(new SlotRequestModel(2, "12:00", "13:00"));
+//        slotListAdapter = new SlotListAdapter(this, slotRequestModels);
+//        lvSlot.setAdapter(slotListAdapter);
 
 
-        List<SlotRequestModel> slotRequestModels = new ArrayList<>();
-        slotRequestModels.add(new SlotRequestModel(2, "12:00", "13:00"));
-        slotListAdapter = new SlotListAdapter(this, slotRequestModels);
-        lvSlot.setAdapter(slotListAdapter);
-
+        navigateFragement(SlotRequestSubjectChooserFragment.newInstance(),SlotRequestSubjectChooserFragment.class.toString());
     }
 
     public void clickToSubmit(View view) {
@@ -99,6 +113,38 @@ public class SlotRequestActivity extends AppCompatActivity implements RequestSlo
 
     }
 
+
+    public Subject getSubjectChoosed() {
+        return subjectChoosed;
+    }
+
+    public void setSubjectChoosed(Subject subjectChoosed) {
+        this.subjectChoosed = subjectChoosed;
+    }
+
+    public ClassDetail getClassDetailChoosed() {
+        return classDetailChoosed;
+    }
+
+    public void setClassDetailChoosed(ClassDetail classDetailChoosed) {
+        this.classDetailChoosed = classDetailChoosed;
+    }
+
+    public void clickToNext(View view) {
+        Log.d(TAG, "clickToNext: ");
+    }
+
+    public void navigateFragement(Fragment fragment, String tag) {
+        Fragment mFragment = getSupportFragmentManager().findFragmentByTag(tag);
+        if (mFragment == null) {
+            mFragment = fragment;
+        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.view_stub, mFragment, tag)
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .commit();
+
+    }
     public static class SlotRequestModel implements Serializable{
         int weekDayNumber;
         String startTime;

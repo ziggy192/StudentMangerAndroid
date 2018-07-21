@@ -19,9 +19,9 @@ public class Common {
 
 
     public static SimpleDateFormat formatter = new SimpleDateFormat();
-    public static StudentDemoService getService(){
-        return RetrofitClient.getClient(BASE_URL).create(StudentDemoService.class);
-    }
+//    public static StudentDemoService getService(){
+//        return RetrofitClient.getClient(BASE_URL).create(StudentDemoService.class);
+//    }
 
     public static String dateFormater(String pattern, Date date) {
         formatter.applyPattern(pattern);

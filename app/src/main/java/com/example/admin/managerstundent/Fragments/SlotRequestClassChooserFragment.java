@@ -82,7 +82,7 @@ public class SlotRequestClassChooserFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ClassDetail classDetailChoosed = adapter.getItem(position);
                 mActivity.setClassDetailChoosed(classDetailChoosed);
-                mActivity.navigateFragement(new SlotRequestClassDetailFragment(), SlotRequestClassDetailFragment.class.toString());
+                mActivity.pushFragment(new SlotRequestClassDetailFragment(), SlotRequestClassDetailFragment.class.toString());
                 Toast.makeText(
                         SlotRequestClassChooserFragment.this.getActivity()
                         , "Class " + classDetailChoosed.getClassName()

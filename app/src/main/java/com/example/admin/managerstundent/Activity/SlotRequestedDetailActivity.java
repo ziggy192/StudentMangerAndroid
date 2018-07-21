@@ -48,8 +48,19 @@ public class SlotRequestedDetailActivity extends AppCompatActivity {
 
     private void settupUI() {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        String state = model.getState();
         tvSlotRequestState.setText(model.getState());
+        switch (state) {
+            case SlotRequestedModel.ACCEPTED_STATE:
+                tvSlotRequestState.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                break;
+            case SlotRequestedModel.DENIED_STATE:
+                tvSlotRequestState.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+            break;
+            case SlotRequestedModel.WAITING_STATE:
+                tvSlotRequestState.setTextColor(getResources().getColor(R.color.colorTextPrimary));
+
+        }
 
     }
 

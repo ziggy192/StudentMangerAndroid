@@ -1,6 +1,7 @@
 package com.example.admin.managerstundent.Ultils;
 
 import com.example.admin.managerstundent.Entity.ClassDetail;
+import com.example.admin.managerstundent.Entity.NotificationModel;
 import com.example.admin.managerstundent.Entity.SlotRequestedModel;
 import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.Entity.Subject;
@@ -10,10 +11,12 @@ import java.util.List;
 
 public class DummyDatabase {
     public static final Subject[] subjects = {
-            new Subject(1,"Enlish"),
-            new Subject(2,"Japanese"),
-            new Subject(3,"Math"),
-            new Subject(4,"Physics")};
+            new Subject(1, "Enlish"),
+            new Subject(2, "Japanese"),
+            new Subject(3, "Math"),
+            new Subject(4, "Physics")};
+
+
 
     private static final ClassDetail[] classDetails = {
             new ClassDetail(1, "English 1")
@@ -23,7 +26,6 @@ public class DummyDatabase {
             , new ClassDetail(5, "English 5")
 
     };
-
     private static final SlotRequestedModel[] slotRequestedModel = {
 
             new SlotRequestedModel(classDetails[0], SlotRequestedModel.WAITING_STATE)
@@ -33,6 +35,12 @@ public class DummyDatabase {
 
     };
 
+    public static final NotificationModel[] notifications = {
+            new NotificationModel(1, "15 minutes to next class", "You should hurry up")
+            , new NotificationModel(2, "15 minutes to next class", "You should hurry up",true)
+            , new NotificationModel(3, "15 minutes to next class", "You should hurry up")
+            , new NotificationModel(4, "15 minutes to next class", "You should hurry up",true)
+    };
     private static Student studentProfile = new Student(
             "Nguyen Van A"
             , "0905456483"
@@ -57,5 +65,15 @@ public class DummyDatabase {
     public static void setStudentProfile(Student studentProfile) {
         DummyDatabase.studentProfile = studentProfile;
     }
+
+    public static List<NotificationModel> getNotificationList() {
+        return Arrays.asList(notifications);
+    }
+
+    public static void updateNotification(NotificationModel model) {
+        // update by ID of model
+    }
+
+
 
 }

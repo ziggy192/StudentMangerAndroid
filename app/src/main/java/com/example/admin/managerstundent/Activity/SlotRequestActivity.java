@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,30 +14,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.admin.managerstundent.Dialogs.RequestSlotEditDialogFragment;
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.Subject;
 import com.example.admin.managerstundent.Fragments.SlotRequestSubjectChooserFragment;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.Common;
-import com.example.admin.managerstundent.Ultils.DummyDatabase;
-
-import org.w3c.dom.Text;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SlotRequestActivity extends AppCompatActivity implements RequestSlotEditDialogFragment.OnRequestSlotInteractionListener {
+public class SlotRequestActivity extends AppCompatActivity {
 
     private static final String TAG = SlotRequestActivity.class.toString();
 
@@ -92,27 +85,10 @@ public class SlotRequestActivity extends AppCompatActivity implements RequestSlo
 //        lvSlot.setAdapter(slotListAdapter);
 
 
-        navigateFragement(SlotRequestSubjectChooserFragment.newInstance(),SlotRequestSubjectChooserFragment.class.toString());
+        pushFragment(SlotRequestSubjectChooserFragment.newInstance()
+                , SlotRequestSubjectChooserFragment.class.toString()
+                , false);
     }
-
-    public void clickToSubmit(View view) {
-
-    }
-
-    public void clickToAddSlot(View view) {
-        Toast.makeText(this, "add slot", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onDone(SlotRequestModel model) {
-        Toast.makeText(this, "model added weekday = "+Common.weekdays[model.getWeekDayNumber()], Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCancel() {
-
-    }
-
 
     public Subject getSubjectChoosed() {
         return subjectChoosed;
@@ -134,17 +110,36 @@ public class SlotRequestActivity extends AppCompatActivity implements RequestSlo
         Log.d(TAG, "clickToNext: ");
     }
 
-    public void navigateFragement(Fragment fragment, String tag) {
+    public void pushFragment(Fragment fragment, String tag, boolean addToBackStack ) {
         Fragment mFragment = getSupportFragmentManager().findFragmentByTag(tag);
         if (mFragment == null) {
             mFragment = fragment;
         }
-        getSupportFragmentManager().beginTransaction()
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
                 .replace(R.id.view_stub, mFragment, tag)
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .commit();
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
+        if (addToBackStack) {
+            transaction.addToBackStack(tag);
+        }
+
+        transaction.commit();
 
     }
+    public void pushFragment(Fragment fragment, String tag) {
+        pushFragment(fragment,tag,true);
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public static class SlotRequestModel implements Serializable{
         int weekDayNumber;
         String startTime;

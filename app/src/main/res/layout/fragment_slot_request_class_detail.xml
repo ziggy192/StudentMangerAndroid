@@ -20,6 +20,10 @@
     <include
         layout="@layout/content_slot_request_class_detail"
         app:layout_constraintTop_toBottomOf="@id/tvClassName"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         />
     <Button
     android:id="@+id/btnSubmit"

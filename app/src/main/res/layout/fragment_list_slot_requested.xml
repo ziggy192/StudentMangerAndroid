@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="16dp"
     tools:context=".Fragments.ListSlotRequestedFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,7 +14,6 @@
         android:textSize="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.RecyclerView
@@ -22,5 +23,19 @@
         android:layout_width="match_parent"
         android:nestedScrollingEnabled="false"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnAddRequest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/ic_plus"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_goneMarginBottom="16dp"
+        app:rippleColor="@color/black_overlay" />
 
 </android.support.constraint.ConstraintLayout>

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.admin.managerstundent.Activity.EditStudentActivity;
-import com.example.admin.managerstundent.Constant.Constant;
 import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.CircleTransform;
@@ -24,9 +23,6 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.example.admin.managerstundent.Constant.Constant.PARENT_PHONE_NUMBER_KEY;
-import static com.example.admin.managerstundent.Constant.Constant.PHONE_NUMBER_KEY;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,7 +57,7 @@ public class StudentProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.activity_student_detail, container, false);
+        return inflater.inflate(R.layout.fragment_student_detail, container, false);
     }
 
 

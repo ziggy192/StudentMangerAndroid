@@ -94,7 +94,7 @@ public class SlotRequestSubjectChooserFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Subject subject = adapter.getItem(position);
                 mActivity.setSubjectChoosed(subject);
-                mActivity.navigateFragement(SlotRequestClassChooserFragment.newInstance(), SlotRequestClassChooserFragment.class.toString());
+                mActivity.pushFragment(SlotRequestClassChooserFragment.newInstance(), SlotRequestClassChooserFragment.class.toString());
                 Toast.makeText(
                         SlotRequestSubjectChooserFragment.this.getActivity()
                         , "subject "+subject.getSubjectName()

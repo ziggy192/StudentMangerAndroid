@@ -37,7 +37,7 @@ public class StudentDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_detail);
+        setContentView(R.layout.fragment_student_detail);
         ButterKnife.bind(this);
         ((TextView) findViewById(R.id.txtUsername)).setText(getIntent().getStringExtra("name"));
         ImageView img = findViewById(R.id.imageViewUser);

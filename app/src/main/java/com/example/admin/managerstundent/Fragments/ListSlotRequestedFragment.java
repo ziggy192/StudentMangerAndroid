@@ -29,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,6 +104,12 @@ public class ListSlotRequestedFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.btnAddRequest)
+    public void addRequest() {
+        Intent intent = new Intent(getActivity(), SlotRequestActivity.class);
+        startActivity(intent);
+    }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -113,6 +120,8 @@ public class ListSlotRequestedFragment extends Fragment {
         TextView tvState;
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setClickable(true);
+            itemView.setFocusable(true);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,13 +139,16 @@ public class ListSlotRequestedFragment extends Fragment {
             switch (state) {
                 case SlotRequestedModel.ACCEPTED_STATE:
                     tvState.setText("Accepted");
+                    tvState.setTextColor(itemView.getResources().getColor(android.R.color.holo_green_dark));
                     break;
                 case SlotRequestedModel.DENIED_STATE:
                     tvState.setText("Denied");
+                    tvState.setTextColor(itemView.getResources().getColor(android.R.color.holo_red_dark));
 
                     break;
                 case SlotRequestedModel.WAITING_STATE:
                     tvState.setText("Waiting for response...");
+                    tvState.setTextColor(itemView.getResources().getColor(R.color.colorTextPrimary));
                     break;
             }
         }

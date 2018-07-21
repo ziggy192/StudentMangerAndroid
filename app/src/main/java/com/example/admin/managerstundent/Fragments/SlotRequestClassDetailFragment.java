@@ -70,7 +70,7 @@ public class SlotRequestClassDetailFragment extends Fragment {
     @OnClick(R.id.btnSubmit)
     public void onSubmit() {
         Log.d(TAG, "onSubmit: pressed "+ classDetailModel.getClassName());
-
+        this.getActivity().finish();
     }
     @Override
     public void onAttach(Context context) {

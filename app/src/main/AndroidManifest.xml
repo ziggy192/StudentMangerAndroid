@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:replace="android:icon">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_baseline_notifications_24px" />
         <activity
             android:name=".Activity.MainActivity"
             android:screenOrientation="portrait"
@@ -71,7 +74,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.SlotDetailActivity" />
         <activity android:name=".Activity.SlotRequestActivity" />
-        <activity android:name=".Activity.SlotRequestedDetailActivity"></activity>
+        <activity android:name=".Activity.SlotRequestedDetailActivity" />
+
+
+        <service
+            android:name=".Service.MyFirebaseMessagingService"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

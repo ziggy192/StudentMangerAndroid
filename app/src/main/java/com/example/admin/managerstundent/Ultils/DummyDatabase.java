@@ -6,7 +6,9 @@ import com.example.admin.managerstundent.Entity.SlotRequestedModel;
 import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.Entity.Subject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class DummyDatabase {
@@ -26,6 +28,8 @@ public class DummyDatabase {
             , new ClassDetail(5, "English 5")
 
     };
+
+    private static List<ClassDetail> classDetailsToMakeTimetable = new ArrayList<>();
     private static final SlotRequestedModel[] slotRequestedModel = {
 
             new SlotRequestedModel(classDetails[0], SlotRequestedModel.WAITING_STATE)
@@ -42,7 +46,8 @@ public class DummyDatabase {
             , new NotificationModel(4, "15 minutes to next class", "You should hurry up",true)
     };
     private static Student studentProfile = new Student(
-            "Nguyen Van A"
+            1
+            ,"Nguyen Van A"
             , "0905456483"
             , "0905167468"
             , "19/02/1997"
@@ -66,9 +71,14 @@ public class DummyDatabase {
         DummyDatabase.studentProfile = studentProfile;
     }
 
+    public static void setClassDetails(List<ClassDetail> classDetails) {
+        classDetailsToMakeTimetable = classDetails;
+    }
+
     public static List<NotificationModel> getNotificationList() {
         return Arrays.asList(notifications);
     }
+
 
     public static void updateNotification(NotificationModel model) {
         // update by ID of model

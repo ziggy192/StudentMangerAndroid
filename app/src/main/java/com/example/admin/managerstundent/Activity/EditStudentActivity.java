@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,12 +19,15 @@ import android.widget.TextView;
 
 import com.example.admin.managerstundent.Constant.Constant;
 import com.example.admin.managerstundent.Entity.Student;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.CircleTransform;
 import com.example.admin.managerstundent.Ultils.DocumentHelper;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -38,15 +42,7 @@ import butterknife.ButterKnife;
 
 public class EditStudentActivity extends AppCompatActivity {
 
-    private Uri returnUri;
-    private String userAvatar = null;
-    private Bitmap bitmap, rotateBitmap;
-    private ImageView pickImage;
-    private ExifInterface exif;
-    private File chosenFile;
-
-
-
+    private static final String TAG = EditStudentActivity.class.toString();
     @BindView(R.id.edit_test_name)
     EditText edtName;
     @BindView(R.id.edit_test_phone)
@@ -59,7 +55,19 @@ public class EditStudentActivity extends AppCompatActivity {
     RadioButton rbMale;
     @BindView(R.id.rbFemale)
     RadioButton rbFemale;
+    private Uri returnUri;
+    private String userAvatar = null;
+    private Bitmap bitmap, rotateBitmap;
+    private ImageView pickImage;
+    private ExifInterface exif;
+    private File chosenFile;
 
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,29 +96,42 @@ public class EditStudentActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        EventBus.getDefault().unregister(this);
+    }
+
+
+
     public void clickToEdit(View view) {
-
-
-        //todo save info here
         Student oldStudent = DummyDatabase.getStudentProfile();
-        DummyDatabase.setStudentProfile(
-                new Student(
-                        edtName.getText().toString()
-                        , edtPhone.getText().toString()
-                        , edtParentsNumber.getText().toString()
-                        , edtDayOfBirth.getText().toString()
-                        , rbMale.isChecked()
-                        , oldStudent.isPaid()
-                )
-        );
 
-        onBackPressed();
+        Student editedStudentModel = new Student(
+                oldStudent.getId()
+                , edtName.getText().toString()
+                , edtPhone.getText().toString()
+                , edtParentsNumber.getText().toString()
+                , edtDayOfBirth.getText().toString()
+                , rbMale.isChecked()
+                , oldStudent.isPaid()
+        );
+        //post event
+        HttpHelper.getIntance().putStudentProfile(editedStudentModel);
+        //save info when http responsed
+
+        finish();
     }
 
     public void clickToCancel(View view) {
         onBackPressed();
     }
-
 
     public void onChooseImage(View view) {
         userAvatar = null;
@@ -156,13 +177,6 @@ public class EditStudentActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
-                matrix, true);
     }
 
     private void getFilePath() {

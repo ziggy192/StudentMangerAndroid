@@ -2,18 +2,32 @@ package com.example.admin.managerstundent.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.admin.managerstundent.Activity.ListStudentActivity;
 import com.example.admin.managerstundent.Activity.SlotRequestActivity;
+import com.example.admin.managerstundent.Adapter.TimeSlotModelAdapter;
+import com.example.admin.managerstundent.DTO.ClassDTO;
+import com.example.admin.managerstundent.DTO.SlotRequestPostDTO;
 import com.example.admin.managerstundent.Entity.ClassDetail;
+import com.example.admin.managerstundent.Entity.TimeSlotModel;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
+import com.example.admin.managerstundent.Ultils.DummyDatabase;
+
+import java.sql.Time;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,12 +49,11 @@ public class SlotRequestClassDetailFragment extends Fragment {
     TextView tvSubjectName;
     @BindView(R.id.tvTeacherName)
     TextView tvTeacherName;
-    @BindView(R.id.tvTime)
-    TextView tvTime;
-    @BindView(R.id.tvDayOfWeek)
-    TextView tvDayOfWeek;
+
     @BindView(R.id.tvClassName)
     TextView tvClassNameLabel;
+    @BindView(R.id.lvTimeSlots)
+    ListView lvTimeSlots;
 
     public SlotRequestClassDetailFragment() {
         // Required empty public constructor
@@ -59,17 +72,29 @@ public class SlotRequestClassDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         classDetailModel = mActivity.getClassDetailChoosed();
+        settupUI();
 
+
+}
+
+    public void settupUI() {
         tvClassNameLabel.setText(String.format("Class %s", classDetailModel.getClassName()));
         tvSubjectName.setText(classDetailModel.getSubjectName());
         tvTeacherName.setText(classDetailModel.getTeacherName());
-        tvTime.setText(classDetailModel.getTime());
-        tvDayOfWeek.setText(classDetailModel.getDaysOfWeekString());
 
+        List<TimeSlotModel> timeSlotModelList = classDetailModel.getTimeSlotModelList();
+
+        TimeSlotModelAdapter adapter = new TimeSlotModelAdapter(timeSlotModelList);
+        lvTimeSlots.setAdapter(adapter);
     }
     @OnClick(R.id.btnSubmit)
     public void onSubmit() {
         Log.d(TAG, "onSubmit: pressed "+ classDetailModel.getClassName());
+
+        //todo submit form to server
+        int studentId = DummyDatabase.getStudentProfile().getId();
+        int classDetailId = classDetailModel.getClassId();
+        HttpHelper.getIntance().postSlotRequest(studentId,new SlotRequestPostDTO(classDetailId));
         this.getActivity().finish();
     }
     @Override
@@ -87,5 +112,8 @@ public class SlotRequestClassDetailFragment extends Fragment {
         super.onDetach();
         mActivity = null;
     }
+
+
+
 
 }

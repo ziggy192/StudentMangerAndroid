@@ -18,10 +18,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+
+
     <include layout="@layout/content_slot_request_class_detail"
         android:id="@+id/layoutClassDetail"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="?attr/actionBarSize"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -29,11 +32,11 @@
         app:layout_constraintTop_toBottomOf="@id/layoutClassDetail"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
-
             android:text="State"
             android:textStyle="bold"
             android:layout_width="wrap_content"

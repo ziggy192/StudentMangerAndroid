@@ -4,6 +4,7 @@ import android.widget.TextView;
 
 import com.example.admin.managerstundent.Constant.Constant;
 import com.example.admin.managerstundent.R;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -12,15 +13,25 @@ import static com.example.admin.managerstundent.Constant.Constant.PHONE_NUMBER_K
 
 public class Student implements Serializable{
 
+
+    @SerializedName("Id")
+	private int id;
+    @SerializedName("Name")
     private String name;
+    @SerializedName("PhoneNumber")
     private String phoneNumber;
+    @SerializedName("ParentsPhoneNumber")
     private String parentsPhoneNumber;
+    @SerializedName("DateOfBirth")
     private String dateOfBirth;
+    @SerializedName("IsMale")
     private boolean isMale;
+    @SerializedName("IsPaid")
     private boolean isPaid;
 
-    public Student(String name, String phoneNumber, String parentsPhoneNumber, String dateOfBirth, boolean isMale, boolean isPaid) {
-        this.name = name;
+    public Student(int id, String name, String phoneNumber, String parentsPhoneNumber, String dateOfBirth, boolean isMale, boolean isPaid) {
+        this.id  = id;
+		this.name = name;
         this.phoneNumber = phoneNumber;
         this.parentsPhoneNumber = parentsPhoneNumber;
         this.dateOfBirth = dateOfBirth;
@@ -38,6 +49,14 @@ public class Student implements Serializable{
                 ", isMale=" + isMale +
                 ", isPaid=" + isPaid +
                 '}';
+    } 
+	
+	public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

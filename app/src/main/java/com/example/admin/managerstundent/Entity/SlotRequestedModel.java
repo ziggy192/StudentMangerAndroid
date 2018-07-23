@@ -1,9 +1,14 @@
 package com.example.admin.managerstundent.Entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class SlotRequestedModel implements Serializable {
+
+    @SerializedName("ClassDetail")
     private ClassDetail classDetail;
+    @SerializedName("State")
     private String state;
 
 

@@ -1,5 +1,7 @@
 package com.example.admin.managerstundent.Entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,31 +9,44 @@ import java.util.List;
 
 public class ClassDetail implements Serializable {
 
-
+    public static final String DEFAULT_ROOM_NAME = "R101";
+    @SerializedName("ClassDetailId")
     private int classId;
+    @SerializedName("ClassName")
     private String className;
-    private String subjectName;
-    private String teacherName;
-    private String time;
-    private List<String> daysOfWeek;
 
-    public ClassDetail(int classId, String className, String subjectName, String teacherName, String time, List<String> daysOfWeek) {
+    @SerializedName("SubjectName")
+    private String subjectName;
+
+    @SerializedName("TeacherName")
+    private String teacherName;
+
+    @SerializedName("RoomName")
+    private String roomName;
+
+    @SerializedName("TimeSlotModels")
+    List<TimeSlotModel> timeSlotModelList;
+
+
+    public ClassDetail(int classId, String className, String subjectName, String teacherName, String roomName, List<TimeSlotModel> timeSlotModelList) {
         this.classId = classId;
         this.className = className;
         this.subjectName = subjectName;
         this.teacherName = teacherName;
-        this.time = time;
-        this.daysOfWeek = daysOfWeek;
+        this.roomName = roomName;
+        this.timeSlotModelList = timeSlotModelList;
     }
 
+
     public ClassDetail(int classId, String className) {
-        this(classId, className, "English", "NghiaLQ", "15:00PM - 17:00PM"
+        this(classId, className
+                , "English"
+                , "NghiaLQ"
+                , DEFAULT_ROOM_NAME
                 , Arrays.asList(
-                        new String[]{
-                                "Monday"
-                                , "Wednesday"
-                                , "Friday"
-                        }
+                        new TimeSlotModel("15:00PM - 17:00PM","Monday")
+                        ,new TimeSlotModel("15:00PM - 17:00PM","Wednesday")
+                        ,new TimeSlotModel("15:00PM - 17:00PM","Friday")
                 )
         );
     }
@@ -68,38 +83,29 @@ public class ClassDetail implements Serializable {
         this.teacherName = teacherName;
     }
 
-    public String getTime() {
-        return time;
+
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
-    public List<String> getDaysOfWeek() {
-        return daysOfWeek;
+
+    public static String getDefaultRoomName() {
+        return DEFAULT_ROOM_NAME;
     }
 
-    public String getDaysOfWeekString() {
-        String result ="";
-        for (int i = 0; i < daysOfWeek.size(); i++) {
-            String dayOfWeek = daysOfWeek.get(i);
-            result += dayOfWeek;
-            if (i < daysOfWeek.size() - 1) {
-                result += ", ";
-
-            }
-        }
-        return result;
+    public List<TimeSlotModel> getTimeSlotModelList() {
+        return timeSlotModelList;
     }
 
-    public void setDaysOfWeek(List<String> daysOfWeek) {
-        this.daysOfWeek = daysOfWeek;
+    public void setTimeSlotModelList(List<TimeSlotModel> timeSlotModelList) {
+        this.timeSlotModelList = timeSlotModelList;
     }
 
-    public void addDayOfWeek(String dayOfWeek) {
-        this.daysOfWeek.add(dayOfWeek);
-    }
+
 }
 
 

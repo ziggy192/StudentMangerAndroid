@@ -1,66 +1,53 @@
 package com.example.admin.managerstundent.Activity;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.PendingIntent;
-import android.content.ActivityNotFoundException;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
-import com.example.admin.managerstundent.Adapter.DBAdapter;
-import com.example.admin.managerstundent.Adapter.ListClassAdapter;
 import com.example.admin.managerstundent.Adapter.SmartFragmentStatePagerAdapter;
-import com.example.admin.managerstundent.DTO.ClassDTO;
-import com.example.admin.managerstundent.Entity.Student;
+import com.example.admin.managerstundent.Constant.Constant;
+import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Fragments.ListSlotRequestedFragment;
 import com.example.admin.managerstundent.Fragments.NotificationFragment;
 import com.example.admin.managerstundent.Fragments.StudentProfileFragment;
 import com.example.admin.managerstundent.Fragments.TimeTableFragment;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
-import com.example.admin.managerstundent.Ultils.BottomNavigationViewHelper;
+import com.example.admin.managerstundent.Ultils.DummyDatabase;
+import com.example.admin.managerstundent.Ultils.MyNotificationManager;
 import com.example.admin.managerstundent.viewPagers.NoSwipeViewpager;
-import com.skyfishjy.library.RippleBackground;
-import com.squareup.picasso.Picasso;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.w3c.dom.Text;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 
 /**
  * Author: DangNHH
@@ -72,13 +59,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
     private static final String TAG = MainActivity.class.toString();
-    private static final String RECEIVING_FRAGMENT_NAME_KEY = "fragmentName";
+    private static String NOTIFICATION_TOPIC = "notifications";
+
     @BindView(R.id.bottom_navigation)
     AHBottomNavigation bottomNavigation;
 
     @BindView(R.id.pager)
     NoSwipeViewpager viewpager;
-    private String CHANNEL_ID = "my channel";
 
 
     @Override
@@ -86,15 +73,103 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        setupNotificationChannel();
         settupUI();
         settupListeners();
+        setupFirebaseMessage();
+
+
+    }
+
+    private void setupFirebaseMessage() {
+        FirebaseMessaging.getInstance().subscribeToTopic(NOTIFICATION_TOPIC)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (!task.isSuccessful()) {
+                            Log.d(TAG, "onSubcribeToTopicComplete:topic=" + NOTIFICATION_TOPIC+", result=ERROR");
+                            return;
+                        } else {
+                            Log.d(TAG, "onSubcribeToTopicComplete:topic=" + NOTIFICATION_TOPIC+", result=SUCCESS");
+
+                        }
+                    }
+                });
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(this, new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (!task.isSuccessful()) {
+                    Log.d(TAG, "onComplete: ERROR");
+                    return;
+                } else {
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    Log.d(TAG, "onGetTokenComplete: token="+token);
+                }
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+
+    private void setupNotificationChannel() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(Constant.CHANNEL_ID, Constant.CHANNEL_NAME, importance);
+            mChannel.setDescription(Constant.CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+    }
+    @Subscribe
+    public void onStudentProfileResponse(HttpHelper.GetStudentProfileResponseEvent event) {
+        if (event.isSuccess()) {
+            DummyDatabase.setStudentProfile(event.getStudent());
+        } else {
+            Log.d(TAG, "onStudentProfileResponse: Failure");
+        }
+    }
+    @Subscribe
+    public void onPostSlotRequestResponse(HttpHelper.PostSlotRequestResponseEvent event) {
+        if (event.isSuccess()) {
+            Toast.makeText(this, "Request received", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, String.format("onPostSlotRequestResponse: sucess,SlotRequestList=%s", event.getSlotRequestedModelList()));
+
+        } else {
+            Log.d(TAG, "onPostSlotRequestResponse: Failure");
+        }
+
+    }
+    @Subscribe
+    public void onClassDetailsListResponse(HttpHelper.GetClassDetailsListResponseEvent event) {
+        if (event.isSuccess()) {
+            List<ClassDetail> classDetailList = event.getClassDetailList();
+            Log.d(TAG, String.format("onClassDetailsListResponse: Sucesses, classDetailList=%s", classDetailList));
+            DummyDatabase.setClassDetails(classDetailList);
+
+            //todo update time table fragemnt
+
+        } else {
+            Log.d(TAG, "onClassDetailsListResponse: FAiled");
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        EventBus.getDefault().register(this);
         Log.d(TAG, "onStart: onstart");
-        String receivingFragmentName  = getIntent().getStringExtra(RECEIVING_FRAGMENT_NAME_KEY);
+        String receivingFragmentName  = getIntent().getStringExtra(Constant.RECEIVING_FRAGMENT_NAME_KEY);
         if (receivingFragmentName != null) {
             Log.d(TAG, String.format("onStart: receving fragment name = %s", receivingFragmentName));
 
@@ -104,6 +179,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         }
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private void settupListeners() {
@@ -135,31 +216,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private void sendNotification(String title, String content) {
 
-        //todo use different ids for each noti if dont want them to replace each other
-        final int NotificationID = 123123;
-
-
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        //open notification fragment when receive
-        intent.putExtra(RECEIVING_FRAGMENT_NAME_KEY, NotificationFragment.class.toString());
-
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_baseline_notifications_24px)
-                .setContentTitle(title)
-                .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        // notificationId is a unique int for each notification that you must define
-        //need id for later update or remove
-        notificationManager.notify(NotificationID, mBuilder.build());
+        MyNotificationManager.getInstance(this).displayNotification(title, content);
         Log.d(TAG, "sendNotification: triggerd");
 
     }

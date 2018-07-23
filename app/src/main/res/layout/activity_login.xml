@@ -45,6 +45,16 @@
                 android:hint="Password"
                 android:inputType="textPassword" />
 
+            <TextView
+                android:id="@+id/tvError"
+                android:visibility="invisible"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"
+                android:text="Incorrect username or password"
+                android:textColor="@color/red_btn_bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <mehdi.sakout.fancybuttons.FancyButton
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"

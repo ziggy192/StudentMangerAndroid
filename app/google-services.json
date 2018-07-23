@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "842932262439",
+    "firebase_url": "https://managerstudent-zetysxdevelop.firebaseio.com",
+    "project_id": "managerstudent-zetysxdevelop",
+    "storage_bucket": "managerstudent-zetysxdevelop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:842932262439:android:a524b1dee2eb8ee2",
+        "android_client_info": {
+          "package_name": "com.example.admin.managerstundent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "842932262439-r36fprpl0rlvkc212uu575g5pmqer04h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.admin.managerstundent",
+            "certificate_hash": "7698fa328afb5b01507c01784603db44804f2c74"
+          }
+        },
+        {
+          "client_id": "842932262439-avnfbh8flenargha46sbpcbeatq0phi0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJDAYXPdym7tjiB2rgVKB1U9b5iE1S_24"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "842932262439-avnfbh8flenargha46sbpcbeatq0phi0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

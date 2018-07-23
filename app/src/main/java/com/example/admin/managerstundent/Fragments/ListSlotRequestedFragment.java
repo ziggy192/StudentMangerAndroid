@@ -13,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.admin.managerstundent.Activity.SlotDetailActivity;
 import com.example.admin.managerstundent.Activity.SlotRequestActivity;
 import com.example.admin.managerstundent.Activity.SlotRequestedDetailActivity;
 import com.example.admin.managerstundent.Constant.Constant;
 import com.example.admin.managerstundent.Entity.SlotRequestedModel;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
 
@@ -72,6 +74,7 @@ public class ListSlotRequestedFragment extends Fragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        HttpHelper.getIntance().getSlotRequestByStudentId(DummyDatabase.getStudentProfile().getId());
     }
 
     @Override
@@ -97,11 +100,29 @@ public class ListSlotRequestedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        List<SlotRequestedModel> models = DummyDatabase.getSlotRequestedModels();
+//        List<SlotRequestedModel> models = DummyDatabase.getSlotRequestedModels();
 
+
+
+    }
+
+    @Subscribe
+    public void onGetSlotRequestListResponsed(HttpHelper.GetSlotRequestedResponseEvent event) {
+        if (event.isSuccess()) {
+            List<SlotRequestedModel> models  = event.getSlotRequestedModelList();
+            Toast.makeText(getActivity(), "GetRequestListSucess", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, String.format("onGetSlotRequestListResponsed: sucess, models=%s", models));
+            settupUI(models);
+        } else {
+            //todo show text : Loaded failed
+            Toast.makeText(getActivity(), "GetRequestsFailed", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onGetSlotRequestListResponsed: Failured");
+        }
+    }
+
+    private void settupUI(List<SlotRequestedModel> models) {
         rvSlotRequestedList.setAdapter(new SlotRequestedAdapter(models));
         rvSlotRequestedList.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
     }
 
     @OnClick(R.id.btnAddRequest)

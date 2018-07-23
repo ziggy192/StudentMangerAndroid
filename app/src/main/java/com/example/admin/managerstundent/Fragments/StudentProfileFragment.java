@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,14 @@ import android.widget.TextView;
 
 import com.example.admin.managerstundent.Activity.EditStudentActivity;
 import com.example.admin.managerstundent.Entity.Student;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.CircleTransform;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.Random;
 
@@ -30,6 +35,7 @@ import butterknife.OnClick;
 public class StudentProfileFragment extends Fragment {
 
 
+    private static final String TAG = StudentProfileFragment.class.toString();
     @BindView(R.id.txt_fee_status)
     TextView tvFeeStatus;
     @BindView(R.id.txtParentsNumber)
@@ -62,19 +68,41 @@ public class StudentProfileFragment extends Fragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this, view);
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
 
-        Student student = DummyDatabase.getStudentProfile();
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
-        tvUsername.setText(student.getName());
-        tvPhone.setText(student.getPhoneNumber());
-        tvParentsNumber.setText(student.getParentsPhoneNumber());
-        tvDayOfBirth.setText(student.getDateOfBirth());
+    @Subscribe
+    public void putStudentRepsonseEvent(HttpHelper.PutStudentProfileResponseEvent event) {
+        if (event.isSuccess()) {
+            //todo save info here
+            Student student = event.getStudent();
+            DummyDatabase.setStudentProfile(student);
+            setStudentInfo(student);
+            Log.d(TAG, String.format("putStudentRepsonseEvent: Success, student=%s", student));
+        } else {
+            //do notthing
+            Log.d(TAG, "putStudentRepsonseEvent: FAilure");
+
+        }
+    }
+
+    private void setStudentInfo(Student studentModel) {
+
+        tvUsername.setText(studentModel.getName());
+        tvPhone.setText(studentModel.getPhoneNumber());
+        tvParentsNumber.setText(studentModel.getParentsPhoneNumber());
+        tvDayOfBirth.setText(studentModel.getDateOfBirth());
 
 
-        boolean isMale = student.isMale();
+        boolean isMale = studentModel.isMale();
         if (isMale) {
             tvGender.setText("Male");
         } else {
@@ -82,7 +110,7 @@ public class StudentProfileFragment extends Fragment {
         }
 
 
-        boolean paid = student.isPaid();
+        boolean paid = studentModel.isPaid();
         if (paid) {
             tvFeeStatus.setText("Paid");
             tvFeeStatus.setTextColor(getResources().getColor(R.color.main_green_color));
@@ -95,6 +123,14 @@ public class StudentProfileFragment extends Fragment {
         Random r = new Random();
         String url = "https://picsum.photos/250/250/?image=" + r.nextInt(200);
         Picasso.with(getActivity()).load(url).transform(new CircleTransform()).into(imvUser);
+
+    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        Student student = DummyDatabase.getStudentProfile();
+        setStudentInfo(student);
     }
 
     @OnClick(R.id.btnEditStudent)

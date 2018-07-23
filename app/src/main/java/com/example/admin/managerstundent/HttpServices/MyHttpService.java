@@ -1,9 +1,11 @@
 package com.example.admin.managerstundent.HttpServices;
 
+import com.example.admin.managerstundent.DTO.AccountDTO;
 import com.example.admin.managerstundent.DTO.SlotRequestPostDTO;
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.SlotRequestedModel;
 import com.example.admin.managerstundent.Entity.Student;
+import com.example.admin.managerstundent.Entity.Subject;
 
 import java.util.List;
 
@@ -30,6 +32,20 @@ public interface MyHttpService {
 
     @GET("classDetails/{studentId}")
     Call<List<ClassDetail>> getClassDetailsByStudentId(@Path("studentId") int studentId);
+
+
+    @GET("subjects")
+    Call<List<Subject>> getAllSubjects();
+
+    @GET("subjects/{subjectId}/classDetails")
+    Call<List<ClassDetail>> getClassDetailsBySubjectId(@Path("subjectId") int subjectId);
+
+    @POST("accounts")
+    Call<Student> postLogin(@Body AccountDTO accountDTO);
+
+
+
+
     //for testing
     @GET("users/{user}/repos")
     Call<List<ResponseBody>> listRepos(@Path("user") String user);

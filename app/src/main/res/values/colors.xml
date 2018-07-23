@@ -28,6 +28,11 @@
     <color name="color_table_5_light">#fcd6de</color>
     <color name="color_table_6_light">#d1f3fb</color>
     <color name="color_table_7_light">#e7f7d6</color>
+    <color name="color_table_8_light">#fff8e1</color>
+    <color name="color_table_9_light">#ecd6f7</color>
+    <color name="color_table_10_light">#e0f7fa</color>
+
+
     <color name="sad">#dc787b7b</color>
 
     <array name="colors_table">

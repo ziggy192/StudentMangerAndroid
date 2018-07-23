@@ -134,11 +134,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Subscribe
     public void onStudentProfileResponse(HttpHelper.GetStudentProfileResponseEvent event) {
         if (event.isSuccess()) {
-            DummyDatabase.setStudentProfile(event.getStudent());
+//            DummyDatabase.setStudentProfile(event.getStudent());
         } else {
-            Log.d(TAG, "onStudentProfileResponse: Failure");
+//            Log.d(TAG, "onStudentProfileResponse: Failure");
         }
     }
+
     @Subscribe
     public void onPostSlotRequestResponse(HttpHelper.PostSlotRequestResponseEvent event) {
         if (event.isSuccess()) {
@@ -149,19 +150,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             Log.d(TAG, "onPostSlotRequestResponse: Failure");
         }
 
-    }
-    @Subscribe
-    public void onClassDetailsListResponse(HttpHelper.GetClassDetailsListResponseEvent event) {
-        if (event.isSuccess()) {
-            List<ClassDetail> classDetailList = event.getClassDetailList();
-            Log.d(TAG, String.format("onClassDetailsListResponse: Sucesses, classDetailList=%s", classDetailList));
-            DummyDatabase.setClassDetails(classDetailList);
-
-            //todo update time table fragemnt
-
-        } else {
-            Log.d(TAG, "onClassDetailsListResponse: FAiled");
-        }
     }
 
     @Override
@@ -199,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     case 1:
                         break;
                     case 2:
-                        sendNotification();
+//                        sendNotification();
 
                         break;
                     case 3:

@@ -3,10 +3,12 @@ package com.example.admin.managerstundent.HttpServices;
 import android.util.Log;
 
 import com.example.admin.managerstundent.Constant.Constant;
+import com.example.admin.managerstundent.DTO.AccountDTO;
 import com.example.admin.managerstundent.DTO.SlotRequestPostDTO;
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.SlotRequestedModel;
 import com.example.admin.managerstundent.Entity.Student;
+import com.example.admin.managerstundent.Entity.Subject;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -96,13 +98,13 @@ public class HttpHelper {
             public void onResponse(Call<List<SlotRequestedModel>> call, Response<List<SlotRequestedModel>> response) {
                 List<SlotRequestedModel> slotRequestedModelList = response.body();
                 Log.d(TAG, String.format("getSlotRequestByStudentId: Success: slotReqeustList=%s", slotRequestedModelList));
-                EventBus.getDefault().post(new GetSlotRequestedResponseEvent(true, slotRequestedModelList));
+                EventBus.getDefault().postSticky(new GetSlotRequestedResponseEvent(true, slotRequestedModelList));
             }
 
             @Override
             public void onFailure(Call<List<SlotRequestedModel>> call, Throwable t) {
                 Log.d(TAG, String.format("getSlotRequestByStudentId: Failure:"));
-                EventBus.getDefault().post(new GetSlotRequestedResponseEvent(false, null));
+                EventBus.getDefault().postSticky(new GetSlotRequestedResponseEvent(false, null));
                 t.printStackTrace();
             }
         });
@@ -115,14 +117,14 @@ public class HttpHelper {
             public void onResponse(Call<List<ClassDetail>> call, Response<List<ClassDetail>> response) {
                 List<ClassDetail> classDetailList = response.body();
                 Log.d(TAG, String.format("getClassDetailsByStudentId: Sucess:classdetails=%s", classDetailList));
-                EventBus.getDefault().post(new GetClassDetailsListResponseEvent(true, classDetailList));
+                EventBus.getDefault().postSticky(new GetClassDetailsListStudentIdResponseEvent(true, classDetailList));
 
             }
 
             @Override
             public void onFailure(Call<List<ClassDetail>> call, Throwable t) {
                 Log.d(TAG, String.format("getClassDetailsByStudentId: Failure:"));
-                EventBus.getDefault().post(new GetClassDetailsListResponseEvent(false, null));
+                EventBus.getDefault().postSticky(new GetClassDetailsListStudentIdResponseEvent(false, null));
                 t.printStackTrace();
             }
         });
@@ -134,15 +136,75 @@ public class HttpHelper {
             public void onResponse(Call<List<SlotRequestedModel>> call, Response<List<SlotRequestedModel>> response) {
                 List<SlotRequestedModel> slotRequestedModels = response.body();
                 Log.d(TAG, String.format("postSlotRequest: Sucess:slotRequestedModels=%s", slotRequestedModels));
-                EventBus.getDefault().post(new PostSlotRequestResponseEvent(true, slotRequestedModels));
+                EventBus.getDefault().postSticky(new PostSlotRequestResponseEvent(true, slotRequestedModels));
 
             }
 
             @Override
             public void onFailure(Call<List<SlotRequestedModel>> call, Throwable t) {
                 Log.d(TAG, String.format("postSlotRequest: Failure:"));
-                EventBus.getDefault().post(new PostSlotRequestResponseEvent(false, null));
+                EventBus.getDefault().postSticky(new PostSlotRequestResponseEvent(false, null));
                 t.printStackTrace();
+            }
+        });
+    }
+
+
+    public void getAllSubjects() {
+        myHttpService.getAllSubjects().enqueue(new Callback<List<Subject>>() {
+            @Override
+            public void onResponse(Call<List<Subject>> call, Response<List<Subject>> response) {
+                List<Subject> subjectList = response.body();
+                Log.d(TAG, String.format("getAllSubjects: Success, subjectsLIst=%s",subjectList ));
+                EventBus.getDefault().postSticky(new GetAllSubjectResponseEvent(true, subjectList));
+            }
+
+            @Override
+            public void onFailure(Call<List<Subject>> call, Throwable t) {
+                Log.d(TAG, String.format("ongetAllSubjects: Error"));
+                t.printStackTrace();
+                EventBus.getDefault().postSticky(new GetAllSubjectResponseEvent(false, null));
+
+            }
+        });
+    }
+
+    public void getClassDettailsListBySubjectId(int subjectId) {
+        myHttpService.getClassDetailsBySubjectId(subjectId).enqueue(new Callback<List<ClassDetail>>() {
+            @Override
+            public void onResponse(Call<List<ClassDetail>> call, Response<List<ClassDetail>> response) {
+                List<ClassDetail> classDetailList = response.body();
+                Log.d(TAG, String.format("getClassDetailsBySubjectId: Success, classDetails=%s",classDetailList ));
+                EventBus.getDefault().postSticky(new GetClassDetailsBySubjectIdResponseEvent(true, classDetailList));
+
+            }
+
+            @Override
+            public void onFailure(Call<List<ClassDetail>> call, Throwable t) {
+                Log.d(TAG, String.format("getClassDettailsListBySubjectId: Error"));
+                t.printStackTrace();
+                EventBus.getDefault().postSticky(new GetClassDetailsBySubjectIdResponseEvent(false, null));
+
+            }
+        });
+
+    }
+
+    public void postLogin(AccountDTO accountDTO) {
+        myHttpService.postLogin(accountDTO).enqueue(new Callback<Student>() {
+            @Override
+            public void onResponse(Call<Student> call, Response<Student> response) {
+                Student student = response.body();
+                Log.d(TAG, String.format("postLogin: Success, student=%s", student));
+                EventBus.getDefault().post(new PostLoginEvent(true,student));
+            }
+
+            @Override
+            public void onFailure(Call<Student> call, Throwable t) {
+                Log.d(TAG, "postLogin: Failure");
+                t.printStackTrace();
+
+                EventBus.getDefault().post(new PostLoginEvent(false, null));
             }
         });
     }
@@ -160,6 +222,77 @@ public class HttpHelper {
 
             }
         });
+    }
+
+
+    public static class PostLoginEvent{
+        private boolean isSuccess;
+        private Student student;
+
+        public PostLoginEvent(boolean isSuccess, Student student) {
+            this.isSuccess = isSuccess;
+            this.student = student;
+        }
+
+        public boolean isSuccess() {
+            return isSuccess;
+        }
+
+        public Student getStudent() {
+            return student;
+        }
+    }
+
+    public static class GetClassDetailsBySubjectIdResponseEvent{
+        private boolean isSuccess;
+        private List<ClassDetail> classDetails;
+
+        public GetClassDetailsBySubjectIdResponseEvent(boolean isSuccess, List<ClassDetail> classDetails) {
+            this.isSuccess = isSuccess;
+            this.classDetails = classDetails;
+        }
+
+        public boolean isSuccess() {
+            return isSuccess;
+        }
+
+        public void setSuccess(boolean success) {
+            isSuccess = success;
+        }
+
+        public List<ClassDetail> getClassDetails() {
+            return classDetails;
+        }
+
+        public void setClassDetails(List<ClassDetail> classDetails) {
+            this.classDetails = classDetails;
+        }
+    }
+
+    public static class GetAllSubjectResponseEvent{
+        private boolean isSuccess;
+        private List<Subject> subjectList;
+
+        public GetAllSubjectResponseEvent(boolean isSuccess, List<Subject> subjectList) {
+            this.isSuccess = isSuccess;
+            this.subjectList = subjectList;
+        }
+
+        public boolean isSuccess() {
+            return isSuccess;
+        }
+
+        public void setSuccess(boolean success) {
+            isSuccess = success;
+        }
+
+        public List<Subject> getSubjectList() {
+            return subjectList;
+        }
+
+        public void setSubjectList(List<Subject> subjectList) {
+            this.subjectList = subjectList;
+        }
     }
     public static class  PostSlotRequestResponseEvent{
         //todo this event have no receiveer because SlotRequestListFragment auto refresh every time
@@ -187,11 +320,11 @@ public class HttpHelper {
             this.slotRequestedModelList = slotRequestedModelList;
         }
     }
-    public static class  GetClassDetailsListResponseEvent{
+    public static class GetClassDetailsListStudentIdResponseEvent {
         private boolean isSuccess;
         private List<ClassDetail> classDetailList;
 
-        public GetClassDetailsListResponseEvent(boolean isSuccess, List<ClassDetail> classDetailList) {
+        public GetClassDetailsListStudentIdResponseEvent(boolean isSuccess, List<ClassDetail> classDetailList) {
             this.isSuccess = isSuccess;
             this.classDetailList = classDetailList;
         }

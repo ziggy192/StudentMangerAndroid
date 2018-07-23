@@ -12,11 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class DummyDatabase {
-    public static final Subject[] subjects = {
+    public static List<Subject> subjects = Arrays.asList(new Subject[]{
             new Subject(1, "Enlish"),
             new Subject(2, "Japanese"),
             new Subject(3, "Math"),
-            new Subject(4, "Physics")};
+            new Subject(4, "Physics")});
 
 
 
@@ -29,6 +29,7 @@ public class DummyDatabase {
 
     };
 
+
     private static List<ClassDetail> classDetailsToMakeTimetable = new ArrayList<>();
     private static final SlotRequestedModel[] slotRequestedModel = {
 
@@ -38,13 +39,14 @@ public class DummyDatabase {
             , new SlotRequestedModel(classDetails[3], SlotRequestedModel.DENIED_STATE)
 
     };
+    public static final ArrayList<NotificationModel> notifications = new ArrayList<NotificationModel>();
 
-    public static final NotificationModel[] notifications = {
-            new NotificationModel(1, "15 minutes to next class", "You should hurry up")
-            , new NotificationModel(2, "15 minutes to next class", "You should hurry up",true)
-            , new NotificationModel(3, "15 minutes to next class", "You should hurry up")
-            , new NotificationModel(4, "15 minutes to next class", "You should hurry up",true)
-    };
+    public static void initDummyDatabase() {
+        notifications.add( new NotificationModel(1, "15 minutes to next class", "You should hurry up"));
+        notifications.add(new NotificationModel(2, "15 minutes to next class", "You should hurry up", true));
+        notifications.add( new NotificationModel(1, "15 minutes to next class", "You should hurry up"));
+        notifications.add(new NotificationModel(2, "15 minutes to next class", "You should hurry up", true));
+    }
     private static Student studentProfile = new Student(
             1
             ,"Nguyen Van A"
@@ -75,14 +77,35 @@ public class DummyDatabase {
         classDetailsToMakeTimetable = classDetails;
     }
 
-    public static List<NotificationModel> getNotificationList() {
-        return Arrays.asList(notifications);
+    public static ArrayList<NotificationModel> getNotificationList() {
+        return notifications;
     }
 
+    public static void setSubjects(List<Subject> subjects) {
+        DummyDatabase.subjects = subjects;
+    }
+
+    public static List<Subject> getSubjects() {
+        return subjects;
+    }
 
     public static void updateNotification(NotificationModel model) {
         // update by ID of model
+        model.setRead(model.isRead());
     }
+
+
+    public static List<ClassDetail> getClassDetailsToMakeTimetable() {
+        return classDetailsToMakeTimetable;
+    }
+
+    public static void setClassDetailsToMakeTimetable(List<ClassDetail> classDetailsToMakeTimetable) {
+        DummyDatabase.classDetailsToMakeTimetable = classDetailsToMakeTimetable;
+    }
+
+
+
+
 
 
 

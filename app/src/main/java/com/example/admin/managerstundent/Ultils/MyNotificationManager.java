@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.example.admin.managerstundent.Activity.MainActivity;
 import com.example.admin.managerstundent.Constant.Constant;
+import com.example.admin.managerstundent.Entity.NotificationModel;
 import com.example.admin.managerstundent.Fragments.NotificationFragment;
 import com.example.admin.managerstundent.R;
 
@@ -38,6 +39,7 @@ public class MyNotificationManager {
     public void displayNotification(String title, String body) {
 
         displayNotification(title, body, DEFAULT_NOTIFICATION_ID);
+
     }
     public void displayNotification(String title, String body, int notificationId) {
 
@@ -63,6 +65,9 @@ public class MyNotificationManager {
         mBuilder.setContentIntent(pendingIntent);
 
         notificationManager.notify(notificationId, mBuilder.build());
+
+        //todo add noti to DB
+        DummyDatabase.getNotificationList().add(0,new NotificationModel(notificationId, title, body));
     }
 
 }

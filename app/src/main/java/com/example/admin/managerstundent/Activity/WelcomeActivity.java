@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
+import com.example.admin.managerstundent.Ultils.DummyDatabase;
 
 /**
  * Author: QuyetNP
@@ -34,7 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         }, SWITCH_SCREEN);
-
+        DummyDatabase.initDummyDatabase();
 
     }
 }

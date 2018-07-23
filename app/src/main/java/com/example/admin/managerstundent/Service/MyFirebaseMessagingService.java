@@ -53,9 +53,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
                 title = DEFAULT_MESSAGE_TITLE;
             }
+
             MyNotificationManager.getInstance(this).displayNotification(
                     title, body
             );
+            //todo save notification to Database
+
         }
 
 

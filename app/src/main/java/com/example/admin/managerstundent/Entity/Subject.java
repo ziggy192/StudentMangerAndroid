@@ -1,8 +1,12 @@
 package com.example.admin.managerstundent.Entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Subject {
 
+    @SerializedName("SubjectId")
     int subjectId;
+    @SerializedName("SubjectName")
     String subjectName;
 
     public Subject(int subjectId,String subjectName) {

@@ -18,9 +18,14 @@ import android.widget.Toast;
 import com.example.admin.managerstundent.Activity.SlotRequestActivity;
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.Subject;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,7 +78,11 @@ public class SlotRequestClassChooserFragment extends Fragment {
         Subject subject = mActivity.getSubjectChoosed();
         tvSubjectName.setText("Subject: " + subject.getSubjectName());
 
-        List<ClassDetail> classDetailList = DummyDatabase.getClassList(subject);
+        HttpHelper.getIntance().getClassDettailsListBySubjectId(subject.getSubjectId()        );setupUI(new ArrayList<ClassDetail>());
+    }
+
+    private void setupUI( List<ClassDetail> classDetailList ) {
+
         final ClassDetailListAdapter adapter = new ClassDetailListAdapter(classDetailList);
         lvClasses.setAdapter(adapter);
 
@@ -91,7 +100,29 @@ public class SlotRequestClassChooserFragment extends Fragment {
         });
     }
 
+    @Subscribe(sticky = true)
+    public void onGetClassListBySubjectId(HttpHelper.GetClassDetailsBySubjectIdResponseEvent event) {
+        if (event.isSuccess()) {
+            List<ClassDetail> classDetailList = event.getClassDetails();
+            setupUI(classDetailList);
+            Log.d(TAG, "onGetClassListBySubjectId: Success");
+        } else {
+            Log.d(TAG, "onGetClassListBySubjectId: Failure");
+        }
+        EventBus.getDefault().removeStickyEvent(event);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void onAttach(Context context) {

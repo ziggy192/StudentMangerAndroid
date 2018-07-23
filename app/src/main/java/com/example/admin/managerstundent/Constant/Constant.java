@@ -25,7 +25,7 @@ public final class Constant {
     public static final String BIRTHDAY_KEY = "birthday";
     public static final String FEE_STATUS = "paid";
 
-
+    public static final String CLASS_DETAIL_MODEL_KEY = "classDetailModel";
     public static final String CHANNEL_ID = "my_channel_01";
     public static final String CHANNEL_NAME = "Student Manger Notification";
     public static final String CHANNEL_DESCRIPTION = "Student Manger Notification";

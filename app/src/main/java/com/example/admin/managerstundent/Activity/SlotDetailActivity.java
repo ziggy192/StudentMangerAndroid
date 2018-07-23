@@ -4,9 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.admin.managerstundent.Adapter.TimeSlotModelAdapter;
+import com.example.admin.managerstundent.Constant.Constant;
+import com.example.admin.managerstundent.Entity.ClassDetail;
+import com.example.admin.managerstundent.Entity.TimeSlotModel;
 import com.example.admin.managerstundent.R;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,14 +30,16 @@ public class SlotDetailActivity extends AppCompatActivity {
     TextView tvSubjectName;
     @BindView(R.id.tvTeacherName)
     TextView tvTeacherName;
-    @BindView(R.id.tvTime)
-    TextView tvTime;
-    @BindView(R.id.tvDayOfWeek)
-    TextView tvDayOfWeek;
     @BindView(R.id.tvRoomName)
     TextView tvRoomName;
     @BindView(R.id.my_toolbar)
+
     Toolbar myToolbar;
+    @BindView(R.id.lvTimeSlots)
+    ListView lvTimeSlots;
+
+    @BindView(R.id.tvClassName)
+    TextView tvClassNameLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +65,22 @@ public class SlotDetailActivity extends AppCompatActivity {
     private void setupUI(Bundle bundle) {
         if (bundle == null) bundle = new Bundle();
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        this.getSupportActionBar().setTitle(bundle.getString(SUBJECT_NAME_KEY," "));
-        tvSubjectName.setText(bundle.getString(SUBJECT_NAME_KEY," "));
-        tvTeacherName.setText(bundle.getString(TEACHER_NAME_KEY," "));
-        tvTime.setText(bundle.getString(TIME_KEY," "));
-        tvDayOfWeek.setText(bundle.getString(DAYOFWEEK_KEY," "));
-        tvRoomName.setText(bundle.getString(ROOM_NAME_KEY," "));
+        this.getSupportActionBar().setTitle(bundle.getString(SUBJECT_NAME_KEY, " "));
+
+        ClassDetail classDetail = (ClassDetail) bundle.getSerializable(Constant.CLASS_DETAIL_MODEL_KEY);
+        if (classDetail == null) {
+            classDetail = new ClassDetail(0,"English 1");
+        }
+
+        tvSubjectName.setText(classDetail.getSubjectName());
+        tvTeacherName.setText(classDetail.getTeacherName());
+        tvRoomName.setText(classDetail.getRoomName());
+        tvClassNameLabel.setText(classDetail.getClassName());
+
+        List<TimeSlotModel> timeSlotModelList = classDetail.getTimeSlotModelList();
+
+        TimeSlotModelAdapter adapter = new TimeSlotModelAdapter(timeSlotModelList);
+        lvTimeSlots.setAdapter(adapter);
 
 
     }

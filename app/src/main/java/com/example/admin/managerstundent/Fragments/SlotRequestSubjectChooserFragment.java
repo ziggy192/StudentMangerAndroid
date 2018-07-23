@@ -17,9 +17,14 @@ import android.widget.Toast;
 
 import com.example.admin.managerstundent.Activity.SlotRequestActivity;
 import com.example.admin.managerstundent.Entity.Subject;
+import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +45,7 @@ public class SlotRequestSubjectChooserFragment extends Fragment {
 
 
     // TODO: Rename and change types of parameters
-    private List<Subject> subjectList;
+    private List<Subject> subjectList =  new ArrayList<>();
     private SubjectListAdapter adapter;
 
     @BindView(R.id.lvSubjects)
@@ -71,8 +76,36 @@ public class SlotRequestSubjectChooserFragment extends Fragment {
 //            mParam2 = getArguments().getString(ARG_PARAM2);
         }
         //get list from database
-        subjectList = Arrays.asList(DummyDatabase.subjects);
 
+
+    }
+
+    @Subscribe(sticky = true)
+    public void onSubjectListResponseEvent(HttpHelper.GetAllSubjectResponseEvent event) {
+        if (event.isSuccess()) {
+            List<Subject> subjectList = event.getSubjectList();
+            DummyDatabase.setSubjects(subjectList);
+
+            setupUI();
+            Log.d(TAG, "onSubjectListResponseEvent: Sucess");
+
+        } else {
+            Log.d(TAG, "onSubjectListResponseEvent: Failure");
+        }
+
+        EventBus.getDefault().removeStickyEvent(event);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -86,6 +119,12 @@ public class SlotRequestSubjectChooserFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
+        HttpHelper.getIntance().getAllSubjects();
+        setupUI();
+    }
+
+    public void setupUI() {
+        subjectList = DummyDatabase.getSubjects();
         adapter = new SubjectListAdapter(subjectList);
         lvSubjectst.setAdapter(adapter);
 

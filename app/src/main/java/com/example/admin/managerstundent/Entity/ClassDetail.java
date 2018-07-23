@@ -51,6 +51,18 @@ public class ClassDetail implements Serializable {
         );
     }
 
+    @Override
+    public String toString() {
+        return "ClassDetail{" +
+                "classId=" + classId +
+                ", className='" + className + '\'' +
+                ", subjectName='" + subjectName + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", timeSlotModelList=" + timeSlotModelList +
+                '}';
+    }
+
     public int getClassId() {
         return classId;
     }

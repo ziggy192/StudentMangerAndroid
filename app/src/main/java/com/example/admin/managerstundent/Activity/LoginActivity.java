@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.admin.managerstundent.DTO.AccountDTO;
+import com.example.admin.managerstundent.Entity.Student;
 import com.example.admin.managerstundent.HttpServices.HttpHelper;
 import com.example.admin.managerstundent.R;
 import com.example.admin.managerstundent.Ultils.DummyDatabase;
@@ -30,8 +32,14 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.tvError)
     TextView tvError;
+    @BindView(R.id.edt_username)
+    EditText editUser;
+    @BindView(R.id.edt_password)
+    EditText editPass;
+
 
     private int studentIdFromServer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,47 +48,57 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void checkLogin(View view) {
-        EditText editUser = (EditText) findViewById(R.id.edt_username);
-        EditText editPass = (EditText) findViewById(R.id.edt_password);
+
         //todo uncomment here ( do this last)
 
 //        if(editUser.getText().toString().equals("admin") && editPass.getText().toString().equals("123")) {
         String userName = editUser.getText().toString();
         String password = editPass.getText().toString();
+        HttpHelper.getIntance().postLogin(new AccountDTO(userName, password));
         Log.d(TAG, String.format("checkLogin: username=%s,password=%s", userName, password));
-        if (checkUserNamePassword(userName, password)) {
-            tvError.setVisibility(View.INVISIBLE);
 
-
-            //get student profile from start
-            HttpHelper.getIntance().startGetStudentProfile(studentIdFromServer);
-
-            //get class details list from start
-
-            HttpHelper.getIntance().getClassDetailsByStudentId(studentIdFromServer);
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }else{
-            //incorrect login
-            tvError.setVisibility(View.VISIBLE);
-            editPass.setText("");
-
-        }
 //        }
     }
 
 
+    @Subscribe
+    public void onLogin(HttpHelper.PostLoginEvent event) {
+
+        if (event.isSuccess()) {
+            Log.d(TAG, "onLogin: Success");
+
+            tvError.setVisibility(View.INVISIBLE);
+
+            Student student = event.getStudent();
+            DummyDatabase.setStudentProfile(student);
+            studentIdFromServer = student.getId();
+            //get student profile from start
+            HttpHelper.getIntance().startGetStudentProfile(studentIdFromServer);
+            //get class details list from start
+            HttpHelper.getIntance().getClassDetailsByStudentId(studentIdFromServer);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            //incorrect login
+
+
+        } else {
+            Log.d(TAG, "onLogin: Failure");
+            tvError.setVisibility(View.VISIBLE);
+            editPass.setText("");
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
-//        EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-//        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
     }
 
 

@@ -31,4 +31,12 @@ public class TimeSlotModel implements Serializable {
     public void setDayOfWeek(String dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
     }
+
+    @Override
+    public String toString() {
+        return "TimeSlotModel{" +
+                "time='" + time + '\'' +
+                ", dayOfWeek='" + dayOfWeek + '\'' +
+                '}';
+    }
 }

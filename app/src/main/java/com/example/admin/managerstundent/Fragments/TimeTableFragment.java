@@ -9,8 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.admin.managerstundent.Activity.SlotDetailActivity;
+import com.example.admin.managerstundent.Adapter.ClassDetailAdapter;
 import com.example.admin.managerstundent.Constant.Constant;
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.TimeSlotModel;
@@ -65,6 +67,8 @@ public class TimeTableFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         timeTable = (TimeTableView)view.findViewById(R.id.timetabledummy);
         initData();
+        HttpHelper.getIntance().getClassDetailsByStudentId(DummyDatabase.getStudentProfile().getId());
+
         //todo first init from data from database
         ArrayList<TimeTableData> dataTimeTable = getTimeTableListFromClassDetailList(DummyDatabase.getClassDetailsToMakeTimetable());
         setupUI(dataTimeTable);
@@ -104,7 +108,7 @@ public class TimeTableFragment extends Fragment {
             DummyDatabase.setClassDetailsToMakeTimetable(classDetailList);
 
             Log.d(TAG, "onGetClassDetailsFromStudentId: Success, setting UI..");
-
+            Toast.makeText(this.getActivity(), "Refresh timetable", Toast.LENGTH_SHORT).show();
             ArrayList<TimeTableData> dataTimeTable = getTimeTableListFromClassDetailList(classDetailList);
             setupUI(dataTimeTable);
         } else {
@@ -137,12 +141,17 @@ public class TimeTableFragment extends Fragment {
                 int classDetailId = (int) item.getTime().getKey();
                 Log.d(TAG, String.format("onTimeItemClick: row=%s,column=%s,key=%s", row, column,classDetailId));
                 Intent intent = new Intent(TimeTableFragment.this.getActivity(), SlotDetailActivity.class);
+
+
+
                 //todo setClassDetailHere, not dummy data
                 ClassDetail choosedClassDetail = new ClassDetail(0, "English 1");;
                 for (ClassDetail classDetail1 :
                         DummyDatabase.getClassDetailsToMakeTimetable()) {
+                    Log.d(TAG, String.format("onTimeItemClick: for each, key=%s,clasDetail=%s",classDetailId, classDetail1));
                     if (classDetail1.getClassId() == classDetailId) {
                         choosedClassDetail = classDetail1;
+                        break;
                     }
                 }
 
@@ -154,12 +163,7 @@ public class TimeTableFragment extends Fragment {
 //                String roomName = "R01";
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constant.CLASS_DETAIL_MODEL_KEY, choosedClassDetail);
-//                bundle.putString(SlotDetailActivity.TEACHER_NAME_KEY, teacherName);
-//                bundle.putString(SlotDetailActivity.SUBJECT_NAME_KEY, subjectName);
-//                bundle.putString(SlotDetailActivity.TIME_KEY, timeStr);
-//                bundle.putString(SlotDetailActivity.DAYOFWEEK_KEY, dayOfWeek);
-//                bundle.putString(SlotDetailActivity.ROOM_NAME_KEY, roomName);
-//                intent.putExtra(SlotDetailActivity.PARAMS_KEY, bundle);
+                intent.putExtra(SlotDetailActivity.PARAMS_KEY, bundle);
                 startActivity(intent);
 
             }

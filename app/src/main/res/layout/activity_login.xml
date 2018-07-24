@@ -72,22 +72,6 @@
                 android:onClick="checkLogin"
                 android:text="Login" />
 
-            <mehdi.sakout.fancybuttons.FancyButton
-                android:id="@+id/btn_show_register"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Register"
-                android:layout_marginTop="10dp"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                fancy:fb_borderColor="@color/colorPrimary"
-                fancy:fb_defaultColor="#FFFFFF"
-                fancy:fb_textColor = "@color/colorPrimary"
-                fancy:fb_fontIconResource="&#xf0fe;"
-                fancy:fb_borderWidth="3dp"
-                fancy:fb_radius="30dp" />
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 </ScrollView>

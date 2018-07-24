@@ -1,5 +1,7 @@
 package com.example.admin.managerstundent.Ultils;
 
+import android.util.Log;
+
 import com.example.admin.managerstundent.Entity.ClassDetail;
 import com.example.admin.managerstundent.Entity.NotificationModel;
 import com.example.admin.managerstundent.Entity.SlotRequestedModel;
@@ -12,14 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DummyDatabase {
-    public static List<Subject> subjects = Arrays.asList(new Subject[]{
-            new Subject(1, "Enlish"),
-            new Subject(2, "Japanese"),
-            new Subject(3, "Math"),
-            new Subject(4, "Physics")});
-
-
-
+    public static final ArrayList<NotificationModel> notifications = new ArrayList<NotificationModel>();
     private static final ClassDetail[] classDetails = {
             new ClassDetail(1, "English 1")
             , new ClassDetail(2, "English 2")
@@ -28,9 +23,6 @@ public class DummyDatabase {
             , new ClassDetail(5, "English 5")
 
     };
-
-
-    private static List<ClassDetail> classDetailsToMakeTimetable = new ArrayList<>();
     private static final SlotRequestedModel[] slotRequestedModel = {
 
             new SlotRequestedModel(classDetails[0], SlotRequestedModel.WAITING_STATE)
@@ -39,23 +31,30 @@ public class DummyDatabase {
             , new SlotRequestedModel(classDetails[3], SlotRequestedModel.DENIED_STATE)
 
     };
-    public static final ArrayList<NotificationModel> notifications = new ArrayList<NotificationModel>();
+    private static final String TAG = DummyDatabase.class.toString();
 
-    public static void initDummyDatabase() {
-        notifications.add( new NotificationModel(1, "15 minutes to next class", "You should hurry up"));
-        notifications.add(new NotificationModel(2, "15 minutes to next class", "You should hurry up", true));
-        notifications.add( new NotificationModel(1, "15 minutes to next class", "You should hurry up"));
-        notifications.add(new NotificationModel(2, "15 minutes to next class", "You should hurry up", true));
-    }
+    public static List<Subject> subjects = Arrays.asList(new Subject[]{
+            new Subject(1, "Enlish"),
+            new Subject(2, "Japanese"),
+            new Subject(3, "Math"),
+            new Subject(4, "Physics")});
+    private static List<ClassDetail> classDetailsToMakeTimetable = new ArrayList<>();
     private static Student studentProfile = new Student(
             1
-            ,"Nguyen Van A"
+            , "Nguyen Van A"
             , "0905456483"
             , "0905167468"
             , "19/02/1997"
             , true
             , false
     );
+
+    public static void initDummyDatabase() {
+        notifications.add(new NotificationModel(1, "Student Manager", "You should hurry up"));
+        notifications.add(new NotificationModel(2, "Student Manager", "You should hurry up", true));
+        notifications.add(new NotificationModel(1, "Student Manager", "You should hurry up"));
+        notifications.add(new NotificationModel(2, "Student Manager", "You should hurry up", true));
+    }
 
     public static List<ClassDetail> getClassList(Subject subject) {
         return Arrays.asList(classDetails);
@@ -81,12 +80,12 @@ public class DummyDatabase {
         return notifications;
     }
 
-    public static void setSubjects(List<Subject> subjects) {
-        DummyDatabase.subjects = subjects;
-    }
-
     public static List<Subject> getSubjects() {
         return subjects;
+    }
+
+    public static void setSubjects(List<Subject> subjects) {
+        DummyDatabase.subjects = subjects;
     }
 
     public static void updateNotification(NotificationModel model) {
@@ -100,13 +99,11 @@ public class DummyDatabase {
     }
 
     public static void setClassDetailsToMakeTimetable(List<ClassDetail> classDetailsToMakeTimetable) {
-        DummyDatabase.classDetailsToMakeTimetable = classDetailsToMakeTimetable;
+        Log.d(TAG, String.format("setClassDetailsToMakeTimetable: classDetails=%s", classDetailsToMakeTimetable));
+
+        DummyDatabase.classDetailsToMakeTimetable.clear();
+        DummyDatabase.classDetailsToMakeTimetable.addAll(classDetailsToMakeTimetable);
     }
-
-
-
-
-
 
 
 }

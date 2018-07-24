@@ -50,7 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     public void checkLogin(View view) {
 
         //todo uncomment here ( do this last)
-
+        tvError.setVisibility(View.VISIBLE);
+        tvError.setText("Loading from server");
 //        if(editUser.getText().toString().equals("admin") && editPass.getText().toString().equals("123")) {
         String userName = editUser.getText().toString();
         String password = editPass.getText().toString();
@@ -67,8 +68,8 @@ public class LoginActivity extends AppCompatActivity {
         if (event.isSuccess()) {
             Log.d(TAG, "onLogin: Success");
 
-            tvError.setVisibility(View.INVISIBLE);
-
+//            tvError.setVisibility(View.INVISIBLE);
+            tvError.setText("Login success");
             Student student = event.getStudent();
             DummyDatabase.setStudentProfile(student);
             studentIdFromServer = student.getId();
@@ -85,6 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "onLogin: Failure");
             tvError.setVisibility(View.VISIBLE);
+            tvError.setText("Incorrect username or password");
             editPass.setText("");
         }
     }

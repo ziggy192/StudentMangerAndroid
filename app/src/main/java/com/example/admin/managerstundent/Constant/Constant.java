@@ -8,7 +8,7 @@ package com.example.admin.managerstundent.Constant;
  */
 public final class Constant {
 
-    public static String API_DOMAIN_FOR_REAL_DEVICE = "192.168.173.2";
+    public static String API_DOMAIN_FOR_REAL_DEVICE = "192.168.43.180";
     public static String API_DOMAIN_FOR_GENNYMOTION = "10.0.3.2";
     public static String API_DOMAIN_FOR_AVD = "10.0.2.2 ";
     public static String PORT = "49809";
@@ -16,7 +16,7 @@ public final class Constant {
 
     public static String AUTHOR = "Akiyama";
     public static String APP_NAME = "Management Student";
-    public static String BASE_API_URL = "http://"+API_DOMAIN_FOR_GENNYMOTION+":"+BINDED_PORT+"/api/";
+    public static String BASE_API_URL = "http://"+API_DOMAIN_FOR_REAL_DEVICE+":"+BINDED_PORT+"/api/";
 
     public static final String STUDENT_NAME_KEY = "name";
     public static final String PHONE_NUMBER_KEY = "PHONE NUMBER";
